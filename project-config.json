@@ -1,0 +1,383 @@
+{
+  "project": {
+    "name": "Hypex Landing Page",
+    "version": "1.0.0",
+    "description": "Modern Next.js landing page for digital marketing services",
+    "author": "Hypex Team",
+    "created": "2024",
+    "status": "In Development"
+  },
+  "technical": {
+    "framework": "Next.js 13.5.6",
+    "language": "TypeScript 5.x",
+    "styling": "Tailwind CSS 3.3.0",
+    "nodeVersion": "16.x+",
+    "packageManager": "npm",
+    "deployment": "Vercel"
+  },
+  "architecture": {
+    "pattern": "Component-based",
+    "routing": "App Router (Next.js 13+)",
+    "stateManagement": "React useState",
+    "apiRoutes": "Next.js API Routes",
+    "database": "None (Future: PostgreSQL/MongoDB)",
+    "authentication": "None (Future: NextAuth.js)"
+  },
+  "services": {
+    "socialMedia": {
+      "platforms": [
+        {
+          "name": "Instagram",
+          "services": ["Follower", "Likes", "Story Views", "Reels Views", "Kommentare"],
+          "priceRange": "2.99€ - 9.99€",
+          "icon": "📸"
+        },
+        {
+          "name": "TikTok",
+          "services": ["Follower", "Likes", "Video Views", "Live Likes", "Shares"],
+          "priceRange": "3.99€ - 12.99€",
+          "icon": "🎵"
+        },
+        {
+          "name": "Twitch",
+          "services": ["Follower", "Channel Views", "Abos"],
+          "priceRange": "7.99€ - 25.99€",
+          "icon": "🎮"
+        },
+        {
+          "name": "Telegram",
+          "services": ["Channel-Member", "Gruppen-Member"],
+          "priceRange": "8.99€ - 10.99€",
+          "icon": "✈️"
+        },
+        {
+          "name": "Discord",
+          "services": ["Server-Member", "Boosts"],
+          "priceRange": "14.99€ - 19.99€",
+          "icon": "🎯"
+        }
+      ]
+    },
+    "subscriptions": {
+      "duration": "12 Monate",
+      "options": ["Account Upgrade", "Neuer Account"],
+      "platforms": [
+        {
+          "name": "Spotify Premium",
+          "price": "29.99€",
+          "originalPrice": "9.99€/Monat",
+          "savings": "89.89€"
+        },
+        {
+          "name": "YouTube Premium", 
+          "price": "39.99€",
+          "originalPrice": "11.99€/Monat",
+          "savings": "103.89€"
+        },
+        {
+          "name": "Disney+",
+          "price": "24.99€",
+          "originalPrice": "8.99€/Monat",
+          "savings": "82.89€"
+        },
+        {
+          "name": "Amazon Prime Video",
+          "price": "24.99€",
+          "originalPrice": "8.99€/Monat",
+          "savings": "82.89€"
+        },
+        {
+          "name": "Crunchyroll",
+          "price": "19.99€",
+          "originalPrice": "7.99€/Monat",
+          "savings": "75.89€"
+        }
+      ]
+    },
+    "googleServices": {
+      "maps": {
+        "service": "Google Maps Bewertungen",
+        "price": "ab 4.99€ pro Bewertung",
+        "features": ["Lokale Sichtbarkeit", "Vertrauenswürdigkeit", "Conversion-Rate"]
+      },
+      "knowledgePanel": {
+        "business": {
+          "price": "299€ einmalig",
+          "target": "Unternehmen & Marken"
+        },
+        "personal": {
+          "price": "199€ einmalig",
+          "target": "Privatpersonen"
+        }
+      }
+    }
+  },
+  "components": {
+    "layout": [
+      {
+        "name": "Header",
+        "file": "app/components/Header.tsx",
+        "features": ["Navigation", "Logo", "CTA Button"],
+        "responsive": true
+      },
+      {
+        "name": "Footer",
+        "file": "app/components/Footer.tsx",
+        "features": ["Links", "Disclaimer", "Payment Methods", "Social Links"],
+        "responsive": true
+      }
+    ],
+    "sections": [
+      {
+        "name": "HeroSection",
+        "file": "app/components/HeroSection.tsx",
+        "purpose": "Main value proposition",
+        "cta": "Angebote ansehen"
+      },
+      {
+        "name": "SocialMediaServices",
+        "file": "app/components/SocialMediaServices.tsx",
+        "purpose": "Social media service catalog",
+        "integration": "Stripe payments",
+        "features": ["Service cards", "Pricing", "Purchase buttons"]
+      },
+      {
+        "name": "AboServices", 
+        "file": "app/components/AboServices.tsx",
+        "purpose": "Premium subscription services",
+        "features": ["12-month subscriptions", "Upgrade/New options", "Price comparison"]
+      },
+      {
+        "name": "GoogleServices",
+        "file": "app/components/GoogleServices.tsx",
+        "purpose": "Google Maps & Knowledge Panel services",
+        "features": ["Tab interface", "Before/after examples", "Success stories"]
+      },
+      {
+        "name": "WhyHypex",
+        "file": "app/components/WhyHypex.tsx",
+        "purpose": "Trust indicators and benefits",
+        "features": ["Feature grid", "Statistics", "Trust badges"]
+      },
+      {
+        "name": "CustomerReviews",
+        "file": "app/components/CustomerReviews.tsx",
+        "purpose": "Social proof and testimonials",
+        "features": ["Review carousel", "Success screenshots", "Trust metrics"]
+      },
+      {
+        "name": "FAQ",
+        "file": "app/components/FAQ.tsx",
+        "purpose": "Frequently asked questions",
+        "features": ["Categorized questions", "Expandable answers", "Search functionality"]
+      },
+      {
+        "name": "Contact",
+        "file": "app/components/Contact.tsx",
+        "purpose": "Contact form and support information",
+        "features": ["Contact form", "Support channels", "Response times"],
+        "status": "Needs fixing - JSX syntax error"
+      }
+    ]
+  },
+  "payment": {
+    "provider": "Stripe",
+    "version": "13.11.0",
+    "methods": ["Credit Cards", "PayPal", "SEPA"],
+    "currencies": ["EUR"],
+    "features": [
+      "Secure checkout",
+      "Webhook processing", 
+      "Success/Cancel handling",
+      "Real-time order fulfillment"
+    ],
+    "apiRoutes": {
+      "checkout": "app/api/stripe/checkout/route.ts",
+      "webhook": "app/api/stripe/webhook/route.ts"
+    },
+    "successPage": "app/success/page.tsx"
+  },
+  "styling": {
+    "framework": "Tailwind CSS 3.3.0",
+    "customClasses": {
+      "gradient-text": "bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent",
+      "service-card": "bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100",
+      "btn-primary": "bg-gradient-to-r from-primary-600 to-secondary-600 text-white px-8 py-4 rounded-full font-semibold",
+      "section-padding": "py-16 md:py-24",
+      "container-custom": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    },
+    "colorScheme": {
+      "primary": {
+        "500": "#667eea",
+        "600": "#5a67d8", 
+        "700": "#4c51bf"
+      },
+      "secondary": {
+        "600": "#764ba2"
+      }
+    },
+    "fonts": {
+      "primary": "Inter",
+      "source": "Google Fonts",
+      "weights": [300, 400, 500, 600, 700, 800, 900]
+    }
+  },
+  "environmentVariables": {
+    "required": [
+      "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+      "STRIPE_SECRET_KEY", 
+      "STRIPE_WEBHOOK_SECRET",
+      "NEXT_PUBLIC_DOMAIN"
+    ],
+    "optional": [
+      "NEXT_PUBLIC_GA_ID",
+      "FORMSPREE_ENDPOINT",
+      "TELEGRAM_SUPPORT",
+      "WHATSAPP_SUPPORT",
+      "SMTP_HOST",
+      "SMTP_PORT",
+      "SMTP_USER",
+      "SMTP_PASS"
+    ]
+  },
+  "development": {
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build", 
+      "start": "next start",
+      "lint": "next lint"
+    },
+    "ports": {
+      "development": 3000,
+      "production": 3000
+    },
+    "commands": {
+      "install": "npm install",
+      "clean": "rm -rf .next node_modules",
+      "typecheck": "npx tsc --noEmit",
+      "deploy": "vercel"
+    }
+  },
+  "deployment": {
+    "platform": "Vercel",
+    "domain": "hypex.de",
+    "ssl": true,
+    "environment": "production",
+    "buildCommand": "npm run build",
+    "outputDirectory": ".next",
+    "nodeVersion": "16.x"
+  },
+  "monitoring": {
+    "analytics": "Google Analytics 4",
+    "errorTracking": "None (Recommended: Sentry)",
+    "performance": "Vercel Analytics",
+    "uptime": "Vercel",
+    "payments": "Stripe Dashboard"
+  },
+  "security": {
+    "https": true,
+    "csp": "Basic",
+    "xss": "Protected",
+    "csrf": "Stripe webhook signature verification",
+    "dataProtection": "DSGVO compliant"
+  },
+  "seo": {
+    "metaTags": true,
+    "structuredData": false,
+    "sitemap": false,
+    "robotsTxt": false,
+    "openGraph": false,
+    "twitterCards": false
+  },
+  "currentIssues": [
+    {
+      "priority": "High",
+      "component": "Contact.tsx",
+      "issue": "JSX syntax error preventing compilation",
+      "solution": "Recreate component with proper JSX structure",
+      "file": "app/components/Contact.tsx"
+    },
+    {
+      "priority": "Medium", 
+      "component": "Node.js compatibility",
+      "issue": "Some packages prefer Node 18+",
+      "solution": "Downgraded to compatible versions",
+      "status": "Resolved"
+    }
+  ],
+  "futureImprovements": {
+    "shortTerm": [
+      "Fix Contact component JSX error",
+      "Add Google Analytics integration",
+      "Implement contact form backend",
+      "Add loading states",
+      "Optimize images"
+    ],
+    "mediumTerm": [
+      "Add admin dashboard",
+      "Implement user authentication", 
+      "Add order management system",
+      "Create customer portal",
+      "Add email automation"
+    ],
+    "longTerm": [
+      "Multi-language support",
+      "Mobile app",
+      "Affiliate program",
+      "Advanced analytics",
+      "AI-powered recommendations"
+    ]
+  },
+  "testing": {
+    "unit": "None (Recommended: Jest + React Testing Library)",
+    "integration": "None (Recommended: Cypress)",
+    "e2e": "None (Recommended: Playwright)",
+    "performance": "Lighthouse",
+    "accessibility": "Manual testing"
+  },
+  "documentation": {
+    "readme": "README.md",
+    "projectConfig": "project-config.json",
+    "apiDocs": "In README.md",
+    "componentDocs": "Inline comments",
+    "deploymentGuide": "In README.md"
+  },
+  "team": {
+    "developer": "Lavdim",
+    "designer": "TBD",
+    "projectManager": "TBD",
+    "client": "Hypex"
+  },
+  "timeline": {
+    "started": "2024",
+    "currentPhase": "Development",
+    "expectedCompletion": "TBD",
+    "milestones": [
+      {
+        "name": "Initial Setup",
+        "status": "Completed",
+        "date": "2024"
+      },
+      {
+        "name": "Core Components", 
+        "status": "In Progress",
+        "completion": "90%"
+      },
+      {
+        "name": "Payment Integration",
+        "status": "Completed", 
+        "date": "2024"
+      },
+      {
+        "name": "Bug Fixes",
+        "status": "In Progress",
+        "priority": "High"
+      },
+      {
+        "name": "Testing & Deployment",
+        "status": "Pending",
+        "dependencies": ["Bug Fixes"]
+      }
+    ]
+  }
+}
