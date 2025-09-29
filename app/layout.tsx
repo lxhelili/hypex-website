@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
+import PayPalProvider from './components/PayPalProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -68,7 +69,9 @@ export default function RootLayout({
         <meta name="theme-color" content="#667eea" />
       </head>
       <body className={`${inter.className} antialiased`}>
-        {children}
+        <PayPalProvider>
+          {children}
+        </PayPalProvider>
         
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_ID && (

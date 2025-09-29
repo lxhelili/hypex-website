@@ -1,12 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { Heart, Users, Eye, MessageCircle, Share2, Video, Zap, ShoppingCart, Loader } from 'lucide-react'
-import { createCheckoutSession, redirectToCheckout } from '../lib/stripe'
+import { Heart, Users, Eye, MessageCircle, Share2, Video, Zap, ShoppingCart } from 'lucide-react'
+import PaymentModal from './PaymentModal'
 
 const SocialMediaServices = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
-  const [loadingService, setLoadingService] = useState<string | null>(null)
+  const [paymentModal, setPaymentModal] = useState<{
+    isOpen: boolean
+    item: any
+  }>({
+    isOpen: false,
+    item: null
+  })
 
   const services = [
     {
@@ -68,34 +74,17 @@ const SocialMediaServices = () => {
     },
   ]
 
-  const handlePurchase = async (platform: string, service: any) => {
-    const serviceKey = `${platform.toLowerCase()}_${service.name.toLowerCase().replace(/[^a-z0-9]/g, '_')}`
-    setLoadingService(serviceKey)
-
-    try {
-      const session = await createCheckoutSession({
-        items: [
-          {
-            name: `${platform} ${service.name}`,
-            description: service.description,
-            price: service.priceNum,
-            quantity: 1,
-          },
-        ],
-        metadata: {
-          platform: platform,
-          service: service.name,
-          type: 'social_media',
-        },
-      })
-
-      await redirectToCheckout(session.sessionId)
-    } catch (error) {
-      console.error('Purchase error:', error)
-      alert('Es gab einen Fehler beim Starten der Zahlung. Bitte versuche es erneut oder kontaktiere unseren Support.')
-    } finally {
-      setLoadingService(null)
-    }
+  const handlePurchase = (platform: string, service: any) => {
+    setPaymentModal({
+      isOpen: true,
+      item: {
+        name: `${platform} ${service.name}`,
+        description: service.description,
+        price: service.priceNum,
+        platform: platform,
+        service: service.name
+      }
+    })
   }
 
   return (
@@ -140,50 +129,38 @@ const SocialMediaServices = () => {
 
               {/* Services List */}
               <div className="space-y-4 mb-8">
-                {platform.services.map((service, serviceIndex) => {
-                  const serviceKey = `${platform.platform.toLowerCase()}_${service.name.toLowerCase().replace(/[^a-z0-9]/g, '_')}`
-                  const isLoading = loadingService === serviceKey
-
-                  return (
-                    <div
-                      key={service.name}
-                      className={`group/service bg-gray-50 hover:bg-gray-100 rounded-lg transition-all duration-200 ${
-                        hoveredCard === index ? 'transform translate-x-2' : ''
-                      }`}
-                      style={{ transitionDelay: `${serviceIndex * 50}ms` }}
-                    >
-                      <div className="flex items-center justify-between p-3">
-                        <div className="flex items-center space-x-3">
-                          <service.icon className="w-5 h-5 text-gray-600" />
-                          <span className="font-medium text-gray-900">{service.name}</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-primary-600 font-semibold">{service.price}</span>
-                          <button
-                            onClick={() => handlePurchase(platform.platform, service)}
-                            disabled={isLoading}
-                            className="bg-primary-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-primary-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-1"
-                          >
-                            {isLoading ? (
-                              <Loader className="w-3 h-3 animate-spin" />
-                            ) : (
-                              <ShoppingCart className="w-3 h-3" />
-                            )}
-                            <span className="hidden sm:inline">
-                              {isLoading ? 'Lädt...' : 'Kaufen'}
-                            </span>
-                          </button>
-                        </div>
+                {platform.services.map((service, serviceIndex) => (
+                  <div
+                    key={service.name}
+                    className={`group/service bg-gray-50 hover:bg-gray-100 rounded-lg transition-all duration-200 ${
+                      hoveredCard === index ? 'transform translate-x-2' : ''
+                    }`}
+                    style={{ transitionDelay: `${serviceIndex * 50}ms` }}
+                  >
+                    <div className="flex items-center justify-between p-3">
+                      <div className="flex items-center space-x-3">
+                        <service.icon className="w-5 h-5 text-gray-600" />
+                        <span className="font-medium text-gray-900">{service.name}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-primary-600 font-semibold">{service.price}</span>
+                        <button
+                          onClick={() => handlePurchase(platform.platform, service)}
+                          className="bg-primary-600 text-white px-3 py-1 rounded text-sm font-medium hover:bg-primary-700 transition-colors duration-200 flex items-center space-x-1"
+                        >
+                          <ShoppingCart className="w-3 h-3" />
+                          <span className="hidden sm:inline">Kaufen</span>
+                        </button>
                       </div>
                     </div>
-                  )
-                })}
+                  </div>
+                ))}
               </div>
 
               {/* CTA Button */}
               <button 
                 onClick={() => {
-                  // Scroll to first service or show all options
+                  // Show modal with first service as default
                   const firstService = platform.services[0]
                   handlePurchase(platform.platform, firstService)
                 }}
@@ -217,6 +194,13 @@ const SocialMediaServices = () => {
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={paymentModal.isOpen}
+        onClose={() => setPaymentModal({ isOpen: false, item: null })}
+        item={paymentModal.item}
+      />
     </section>
   )
 }

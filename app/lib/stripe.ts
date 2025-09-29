@@ -21,9 +21,11 @@ export interface CheckoutSession {
   items: CheckoutItem[]
   customerEmail?: string
   metadata?: Record<string, string>
+  paymentMethod?: 'stripe' | 'paypal'
 }
 
-export async function createCheckoutSession(session: CheckoutSession) {
+// Create Stripe checkout session
+export async function createStripeCheckoutSession(session: CheckoutSession) {
   try {
     const response = await fetch('/api/stripe/checkout', {
       method: 'POST',
@@ -45,7 +47,31 @@ export async function createCheckoutSession(session: CheckoutSession) {
   }
 }
 
-export async function redirectToCheckout(sessionId: string) {
+// Create PayPal order
+export async function createPayPalOrder(session: CheckoutSession) {
+  try {
+    const response = await fetch('/api/paypal/create-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(session),
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to create PayPal order')
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error creating PayPal order:', error)
+    throw error
+  }
+}
+
+// Redirect to Stripe checkout
+export async function redirectToStripeCheckout(sessionId: string) {
   try {
     const stripe = await getStripe()
     
@@ -64,6 +90,18 @@ export async function redirectToCheckout(sessionId: string) {
   }
 }
 
+// Backward compatibility alias
+export const redirectToCheckout = redirectToStripeCheckout
+
+// Universal checkout function that handles both Stripe and PayPal
+export async function createCheckoutSession(session: CheckoutSession) {
+  if (session.paymentMethod === 'paypal') {
+    return createPayPalOrder(session)
+  } else {
+    return createStripeCheckoutSession(session)
+  }
+}
+
 // Predefined products for easy checkout
 export const PRODUCTS = {
   INSTAGRAM_FOLLOWERS_1K: {
@@ -78,11 +116,35 @@ export const PRODUCTS = {
     price: 39.99,
     images: ['/images/instagram-followers.jpg'],
   },
+  INSTAGRAM_LIKES_1K: {
+    name: 'Instagram Likes - 1.000',
+    description: '1.000 Instagram Likes für deine Posts',
+    price: 4.99,
+    images: ['/images/instagram-likes.jpg'],
+  },
+  TIKTOK_FOLLOWERS_1K: {
+    name: 'TikTok Follower - 1.000',
+    description: 'Erhalte 1.000 echte TikTok Follower',
+    price: 12.99,
+    images: ['/images/tiktok-followers.jpg'],
+  },
+  TIKTOK_LIKES_1K: {
+    name: 'TikTok Likes - 1.000',
+    description: '1.000 TikTok Likes für deine Videos',
+    price: 5.99,
+    images: ['/images/tiktok-likes.jpg'],
+  },
   SPOTIFY_PREMIUM_12M: {
     name: 'Spotify Premium - 12 Monate',
     description: 'Spotify Premium Account für 12 Monate - Upgrade oder neuer Account',
     price: 29.99,
     images: ['/images/spotify-premium.jpg'],
+  },
+  YOUTUBE_PREMIUM_12M: {
+    name: 'YouTube Premium - 12 Monate',
+    description: 'YouTube Premium Account für 12 Monate',
+    price: 39.99,
+    images: ['/images/youtube-premium.jpg'],
   },
   GOOGLE_MAPS_REVIEWS_10: {
     name: 'Google Maps Bewertungen - 10 Stück',
@@ -96,6 +158,25 @@ export const PRODUCTS = {
     price: 299.99,
     images: ['/images/google-knowledge-panel.jpg'],
   },
+  GOOGLE_KNOWLEDGE_PANEL_PERSONAL: {
+    name: 'Google Knowledge Panel - Personal',
+    description: 'Professionelles Google Knowledge Panel für Privatpersonen',
+    price: 199.99,
+    images: ['/images/google-knowledge-panel.jpg'],
+  }
 } as const
 
 export type ProductKey = keyof typeof PRODUCTS
+
+// Service categories for easy filtering
+export const SERVICE_CATEGORIES = {
+  SOCIAL_MEDIA: 'social_media',
+  SUBSCRIPTIONS: 'subscriptions',
+  GOOGLE_SERVICES: 'google_services'
+} as const
+
+// Payment method types
+export const PAYMENT_METHODS = {
+  STRIPE: 'stripe',
+  PAYPAL: 'paypal'
+} as const
