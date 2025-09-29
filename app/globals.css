@@ -5,20 +5,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @layer base {
+  :root {
+    --primary-purple: #8924e9;
+    --deep-purple: #4d006a;
+    --accent-pink: #ed07f6;
+  }
+  
   html {
     scroll-behavior: smooth;
   }
   
   body {
     font-family: 'Inter', system-ui, sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #4d006a 0%, #8924e9 100%);
     min-height: 100vh;
   }
 }
 
 @layer components {
   .gradient-text {
-    @apply bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[#8924e9] via-[#ed07f6] to-[#8924e9] bg-clip-text text-transparent;
   }
   
   .card-hover {
@@ -26,11 +32,11 @@
   }
   
   .btn-primary {
-    @apply bg-gradient-to-r from-primary-600 to-secondary-600 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:from-primary-700 hover:to-secondary-700 hover:scale-105 hover:shadow-lg;
+    @apply bg-[#ed07f6] text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-[#d406db] hover:scale-105 hover:shadow-lg hover:shadow-[#ed07f6]/50;
   }
   
   .btn-secondary {
-    @apply bg-white text-primary-600 border-2 border-primary-600 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-primary-600 hover:text-white hover:scale-105;
+    @apply bg-white text-[#8924e9] border-2 border-[#ed07f6] px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-[#ed07f6] hover:text-white hover:scale-105;
   }
   
   .section-padding {
@@ -52,16 +58,52 @@
 
 @layer utilities {
   .text-shadow {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
   
   .text-shadow-lg {
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   }
   
   .bg-pattern {
-    background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0);
+    background-image: radial-gradient(circle at 2px 2px, rgba(237, 7, 246, 0.15) 1px, transparent 0);
     background-size: 32px 32px;
+  }
+  
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(137, 36, 233, 0.5);
+  }
+  
+  .glow-pink {
+    box-shadow: 0 0 20px rgba(237, 7, 246, 0.6);
+  }
+  
+  .bg-hypex-gradient {
+    background: linear-gradient(135deg, #4d006a 0%, #8924e9 100%);
+  }
+  
+  .bg-hypex-dark {
+    background-color: #4d006a;
+  }
+  
+  .bg-hypex-purple {
+    background-color: #8924e9;
+  }
+  
+  .bg-hypex-pink {
+    background-color: #ed07f6;
+  }
+  
+  .text-hypex-purple {
+    color: #8924e9;
+  }
+  
+  .text-hypex-pink {
+    color: #ed07f6;
+  }
+  
+  .border-hypex-pink {
+    border-color: #ed07f6;
   }
 }
 
@@ -71,16 +113,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #4d006a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8924e9 0%, #ed07f6 100%);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  background: linear-gradient(135deg, #ed07f6 0%, #8924e9 100%);
 }
 
 /* Animations */
@@ -113,6 +155,15 @@
   }
 }
 
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(237, 7, 246, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(237, 7, 246, 0.8);
+  }
+}
+
 .fade-in-up {
   animation: fadeInUp 0.6s ease-out forwards;
 }
@@ -125,10 +176,14 @@
   animation: bounce-slow 2s ease-in-out infinite;
 }
 
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
 /* Loading spinner */
 .spinner {
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #667eea;
+  border: 3px solid rgba(237, 7, 246, 0.3);
+  border-top: 3px solid #ed07f6;
   border-radius: 50%;
   width: 24px;
   height: 24px;
@@ -148,4 +203,17 @@
 /* Fix for header offset when scrolling to anchors */
 html {
   scroll-padding-top: 80px;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-hypex {
+  background: linear-gradient(135deg, #4d006a 0%, #8924e9 100%);
+}
+
+.bg-gradient-hypex-reverse {
+  background: linear-gradient(135deg, #8924e9 0%, #4d006a 100%);
+}
+
+.bg-gradient-pink-purple {
+  background: linear-gradient(135deg, #ed07f6 0%, #8924e9 100%);
 }

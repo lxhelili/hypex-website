@@ -1,12 +1,12 @@
 'use client'
 
-import { CheckCircle, Zap, Shield, Clock, MessageCircle, HeadphonesIcon } from 'lucide-react'
+import { CheckCircle, Zap, Shield, Clock, MessageCircle, HeadphonesIcon, Award } from 'lucide-react'
 
 const WhyHypex = () => {
   const features = [
     {
       icon: Zap,
-      title: 'Social Media growth in minutes',
+      title: 'Social Media Wachstum in Minuten',
       description: 'Follower, Likes und Views werden innerhalb weniger Minuten nach der Bestellung geliefert.',
       color: 'from-yellow-500 to-orange-600',
       bgColor: 'bg-yellow-50',
@@ -14,7 +14,7 @@ const WhyHypex = () => {
     },
     {
       icon: Shield,
-      title: 'Abos: Upgrade or new account',
+      title: 'Abos: Upgrade oder neuer Account',
       description: 'Wähle zwischen Account-Upgrade (mit deinen Daten) oder einem komplett neuen Premium-Account.',
       color: 'from-blue-500 to-indigo-600',
       bgColor: 'bg-blue-50',
@@ -22,7 +22,7 @@ const WhyHypex = () => {
     },
     {
       icon: CheckCircle,
-      title: 'Google Services for business & private',
+      title: 'Google Services für Business & Privat',
       description: 'Professionelle Google Maps Bewertungen und Knowledge Panels für Unternehmen und Privatpersonen.',
       color: 'from-green-500 to-emerald-600',
       bgColor: 'bg-green-50',
@@ -30,7 +30,7 @@ const WhyHypex = () => {
     },
     {
       icon: HeadphonesIcon,
-      title: 'Support 24/7 via Telegram & WhatsApp',
+      title: '24/7 Support via Telegram & WhatsApp',
       description: 'Unser Support-Team ist rund um die Uhr über Telegram und WhatsApp für dich erreichbar.',
       color: 'from-purple-500 to-pink-600',
       bgColor: 'bg-purple-50',
@@ -38,11 +38,19 @@ const WhyHypex = () => {
     },
     {
       icon: Clock,
-      title: 'Discreet & secure',
+      title: 'Diskret & Sicher',
       description: 'Alle Services werden diskret und sicher abgewickelt. Deine Daten sind bei uns in sicheren Händen.',
       color: 'from-gray-500 to-slate-600',
       bgColor: 'bg-gray-50',
       iconColor: 'text-gray-600'
+    },
+    {
+      icon: Award,
+      title: 'Geld-zurück-Garantie',
+      description: 'Solltest du nicht zufrieden sein, erhältst du dein Geld zurück. Qualität und Zufriedenheit garantiert.',
+      color: 'from-[#ed07f6] to-[#8924e9]',
+      bgColor: 'bg-pink-50',
+      iconColor: 'text-[#ed07f6]'
     }
   ]
 
@@ -54,7 +62,7 @@ const WhyHypex = () => {
   ]
 
   return (
-    <section id="why-hypex" className="section-padding bg-gradient-to-br from-gray-50 via-white to-blue-50">
+    <section id="why-hypex" className="section-padding bg-gradient-to-br from-gray-50 via-white to-purple-50">
       <div className="container-custom">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -81,8 +89,8 @@ const WhyHypex = () => {
 
               {/* Content */}
               <div className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <div className="flex items-start space-x-2">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />
                   <h3 className="text-xl font-bold text-gray-900">{feature.title}</h3>
                 </div>
                 
@@ -98,7 +106,7 @@ const WhyHypex = () => {
 
           {/* Special Trust Card */}
           <div className="md:col-span-2 lg:col-span-3">
-            <div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl p-8 text-white text-center">
+            <div className="bg-gradient-to-r from-[#8924e9] to-[#ed07f6] rounded-2xl p-8 text-white text-center shadow-xl">
               <h3 className="text-2xl font-bold mb-4">
                 Vertrauen durch Transparenz
               </h3>
@@ -121,6 +129,10 @@ const WhyHypex = () => {
                   <MessageCircle className="w-5 h-5" />
                   <span className="font-semibold">Deutscher Support</span>
                 </div>
+                <div className="flex items-center space-x-2">
+                  <Award className="w-5 h-5" />
+                  <span className="font-semibold">Geld-zurück-Garantie</span>
+                </div>
               </div>
             </div>
           </div>
@@ -139,7 +151,7 @@ const WhyHypex = () => {
                 className="group"
               >
                 <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                  <div className="text-3xl md:text-4xl font-bold text-primary-600 mb-2 group-hover:scale-110 transition-transform duration-300">
+                  <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#8924e9] to-[#ed07f6] bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
                     {stat.number}
                   </div>
                   <div className="text-gray-600 font-medium">
@@ -162,15 +174,21 @@ const WhyHypex = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:from-primary-700 hover:to-secondary-700 hover:shadow-lg hover:scale-105 flex items-center justify-center space-x-2">
+              <a
+                href="#social-media"
+                className="bg-[#ed07f6] text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-[#d406db] hover:shadow-lg hover:scale-105 flex items-center justify-center space-x-2"
+              >
                 <Zap className="w-5 h-5" />
                 <span>Jetzt starten</span>
-              </button>
+              </a>
               
-              <button className="border border-gray-300 text-gray-700 px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:border-primary-500 hover:text-primary-600 hover:bg-primary-50 flex items-center justify-center space-x-2">
+              <a
+                href="#contact"
+                className="border-2 border-[#ed07f6] text-[#8924e9] px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-[#ed07f6] hover:text-white hover:shadow-lg flex items-center justify-center space-x-2"
+              >
                 <MessageCircle className="w-5 h-5" />
                 <span>Beratung anfordern</span>
-              </button>
+              </a>
             </div>
           </div>
         </div>
