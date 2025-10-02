@@ -15,9 +15,9 @@ import {
   XCircle,
   AlertCircle
 } from 'lucide-react'
-
-// Import types separately to avoid initialization issues
 import type { Order, Ticket } from '@/lib/supabase'
+
+export const dynamic = 'force-dynamic'
 
 export default function Dashboard() {
   const { data: session, status } = useSession()
@@ -45,7 +45,6 @@ export default function Dashboard() {
 
   async function fetchData() {
     try {
-      // Dynamically import supabase to ensure env vars are loaded
       const { supabase } = await import('@/lib/supabase')
       
       if (!supabase) {
@@ -54,7 +53,6 @@ export default function Dashboard() {
         return
       }
 
-      // Fetch orders
       const { data: ordersData, error: ordersError } = await supabase
         .from('orders')
         .select('*')
@@ -69,7 +67,6 @@ export default function Dashboard() {
         calculateStats(ordersData, tickets)
       }
 
-      // Fetch tickets
       const { data: ticketsData, error: ticketsError } = await supabase
         .from('tickets')
         .select('*')
@@ -177,7 +174,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">

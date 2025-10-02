@@ -3,6 +3,7 @@
 ## 🎯 Overview
 
 Build your own admin dashboard to:
+
 - ✅ Track all sales in real-time
 - ✅ Manage customer orders
 - ✅ Respond to support tickets
@@ -15,9 +16,11 @@ Build your own admin dashboard to:
 ## 🏗️ **Architecture Options**
 
 ### **Option 1: Simple Setup (Recommended for Beginners)**
+
 **Stack:** Next.js + Supabase + NextAuth
 
-**Why:** 
+**Why:**
+
 - No backend coding needed
 - Free tier available
 - Easy to set up
@@ -26,9 +29,11 @@ Build your own admin dashboard to:
 **Time:** 2-3 hours
 
 ### **Option 2: Full Control Setup**
+
 **Stack:** Next.js + PostgreSQL + Prisma + NextAuth
 
 **Why:**
+
 - Full control over database
 - Better for scaling
 - More customization
@@ -36,9 +41,11 @@ Build your own admin dashboard to:
 **Time:** 4-6 hours
 
 ### **Option 3: Quick & Dirty (Fastest)**
+
 **Stack:** Just Google Sheets + Zapier
 
 **Why:**
+
 - No coding required
 - Set up in 30 minutes
 - Good for testing
@@ -147,76 +154,76 @@ ADMIN_PASSWORD=your_secure_password
 
 ```typescript
 // lib/supabase.ts
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js";
 
 export const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+);
 
 export const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
-)
+);
 ```
 
 ### **Step 6: Update Stripe Webhook to Save Orders**
 
 ```typescript
 // app/api/stripe/webhook/route.ts
-import { headers } from 'next/headers'
-import { NextResponse } from 'next/server'
-import Stripe from 'stripe'
-import { supabaseAdmin } from '@/lib/supabase'
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+import { supabaseAdmin } from "@/lib/supabase";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
-})
+  apiVersion: "2023-10-16",
+});
 
 export async function POST(req: Request) {
-  const body = await req.text()
-  const signature = headers().get('stripe-signature')!
+  const body = await req.text();
+  const signature = headers().get("stripe-signature")!;
 
-  let event: Stripe.Event
+  let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
-    )
+    );
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 })
+    return NextResponse.json({ error: err.message }, { status: 400 });
   }
 
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as Stripe.Checkout.Session
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
 
     // Save order to database
-    const { data, error } = await supabaseAdmin.from('orders').insert({
+    const { data, error } = await supabaseAdmin.from("orders").insert({
       order_id: `ORD-${Date.now()}`,
       customer_email: session.customer_email,
-      customer_name: session.customer_details?.name || 'Unknown',
-      product_name: session.metadata?.product_name || 'Unknown Product',
-      product_type: session.metadata?.product_type || 'social_media',
+      customer_name: session.customer_details?.name || "Unknown",
+      product_name: session.metadata?.product_name || "Unknown Product",
+      product_type: session.metadata?.product_type || "social_media",
       amount: (session.amount_total || 0) / 100,
       currency: session.currency?.toUpperCase(),
-      status: 'completed',
-      payment_method: 'stripe',
+      status: "completed",
+      payment_method: "stripe",
       payment_intent_id: session.payment_intent as string,
-      metadata: session.metadata
-    })
+      metadata: session.metadata,
+    });
 
     if (error) {
-      console.error('Error saving order:', error)
+      console.error("Error saving order:", error);
     } else {
-      console.log('Order saved:', data)
+      console.log("Order saved:", data);
       // TODO: Send confirmation email
       // TODO: Fulfill order
     }
   }
 
-  return NextResponse.json({ received: true })
+  return NextResponse.json({ received: true });
 }
 ```
 
@@ -224,16 +231,16 @@ export async function POST(req: Request) {
 
 ```typescript
 // app/api/auth/[...nextauth]/route.ts
-import NextAuth from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (
@@ -241,76 +248,76 @@ const handler = NextAuth({
           credentials?.password === process.env.ADMIN_PASSWORD
         ) {
           return {
-            id: '1',
-            name: 'Admin',
-            email: 'admin@hypex.de',
-            role: 'admin'
-          }
+            id: "1",
+            name: "Admin",
+            email: "admin@hypex.cloud",
+            role: "admin",
+          };
         }
-        return null
-      }
-    })
+        return null;
+      },
+    }),
   ],
   pages: {
-    signIn: '/admin/login',
+    signIn: "/admin/login",
   },
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role
+        token.role = user.role;
       }
-      return token
+      return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role
+        session.user.role = token.role;
       }
-      return session
-    }
-  }
-})
+      return session;
+    },
+  },
+});
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };
 ```
 
 ### **Step 8: Create Login Page**
 
 ```typescript
 // app/admin/login/page.tsx
-'use client'
+"use client";
 
-import { signIn } from 'next-auth/react'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { signIn } from "next-auth/react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    const result = await signIn('credentials', {
+    const result = await signIn("credentials", {
       username,
       password,
       redirect: false,
-    })
+    });
 
     if (result?.error) {
-      setError('Ungültige Anmeldedaten')
-      setLoading(false)
+      setError("Ungültige Anmeldedaten");
+      setLoading(false);
     } else {
-      router.push('/admin/dashboard')
+      router.push("/admin/dashboard");
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#4d006a] to-[#8924e9] flex items-center justify-center p-4">
@@ -358,12 +365,12 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full bg-[#ed07f6] text-white py-3 rounded-lg font-semibold hover:bg-[#d406db] transition-all duration-300 disabled:opacity-50"
           >
-            {loading ? 'Anmelden...' : 'Anmelden'}
+            {loading ? "Anmelden..." : "Anmelden"}
           </button>
         </form>
       </div>
     </div>
-  )
+  );
 }
 ```
 
@@ -380,9 +387,11 @@ If you want something super quick:
 ### **Setup (30 minutes):**
 
 1. **Create Google Sheet** with columns:
+
    - Order ID | Customer Email | Product | Amount | Status | Date
 
 2. **Set up Zapier:**
+
    - Trigger: "New Payment in Stripe"
    - Action: "Add Row to Google Sheets"
 

@@ -17,6 +17,7 @@ This shows a demo dashboard with sample data. To make it functional, follow the 
 ### 1. **Database Setup** (Choose One)
 
 #### Option A: Supabase (Recommended - Easiest)
+
 ```bash
 # Install Supabase client
 npm install @supabase/supabase-js
@@ -27,6 +28,7 @@ npm install @supabase/supabase-js
 ```
 
 **Create Orders Table:**
+
 ```sql
 CREATE TABLE orders (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -50,11 +52,13 @@ CREATE INDEX idx_orders_created ON orders(created_at DESC);
 ```
 
 #### Option B: MongoDB
+
 ```bash
 npm install mongodb mongoose
 ```
 
 #### Option C: Firebase
+
 ```bash
 npm install firebase firebase-admin
 ```
@@ -67,67 +71,68 @@ Update your Stripe webhook to save orders to database:
 
 ```typescript
 // app/api/stripe/webhook/route.ts
-import { headers } from 'next/headers'
-import { NextResponse } from 'next/server'
-import Stripe from 'stripe'
-import { createClient } from '@supabase/supabase-js'
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+import { createClient } from "@supabase/supabase-js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
-})
+  apiVersion: "2023-10-16",
+});
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
-)
+);
 
 export async function POST(req: Request) {
-  const body = await req.text()
-  const signature = headers().get('stripe-signature')!
+  const body = await req.text();
+  const signature = headers().get("stripe-signature")!;
 
-  let event: Stripe.Event
+  let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
-    )
+    );
   } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 })
+    return NextResponse.json({ error: err.message }, { status: 400 });
   }
 
   // Handle successful payment
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as Stripe.Checkout.Session
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
 
     // Save order to database
-    const { data, error } = await supabase.from('orders').insert({
+    const { data, error } = await supabase.from("orders").insert({
       order_id: `ORD-${Date.now()}`,
       customer_email: session.customer_email,
       customer_name: session.customer_details?.name,
-      product_name: session.metadata?.product_name || 'Unknown',
+      product_name: session.metadata?.product_name || "Unknown",
       amount: (session.amount_total || 0) / 100,
       currency: session.currency?.toUpperCase(),
-      status: 'completed',
-      payment_method: 'stripe',
+      status: "completed",
+      payment_method: "stripe",
       payment_intent_id: session.payment_intent as string,
-      metadata: session.metadata
-    })
+      metadata: session.metadata,
+    });
 
     if (error) {
-      console.error('Error saving order:', error)
+      console.error("Error saving order:", error);
     }
 
     // TODO: Send confirmation email
     // TODO: Fulfill order (deliver service)
   }
 
-  return NextResponse.json({ received: true })
+  return NextResponse.json({ received: true });
 }
 ```
 
 **Similar for PayPal webhook:**
+
 ```typescript
 // app/api/paypal/webhook/route.ts
 // Save PayPal orders to database when captured
@@ -141,58 +146,58 @@ Update the admin dashboard to fetch from database:
 
 ```typescript
 // app/admin/page.tsx
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+);
 
 export default function AdminDashboard() {
-  const [orders, setOrders] = useState([])
+  const [orders, setOrders] = useState([]);
   const [stats, setStats] = useState({
     totalSales: 0,
     totalOrders: 0,
-    pendingOrders: 0
-  })
+    pendingOrders: 0,
+  });
 
   useEffect(() => {
-    fetchOrders()
-    fetchStats()
-  }, [])
+    fetchOrders();
+    fetchStats();
+  }, []);
 
   async function fetchOrders() {
     const { data, error } = await supabase
-      .from('orders')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(20)
+      .from("orders")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(20);
 
-    if (!error) setOrders(data)
+    if (!error) setOrders(data);
   }
 
   async function fetchStats() {
     // Fetch today's stats
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     const { data, error } = await supabase
-      .from('orders')
-      .select('amount, status')
-      .gte('created_at', today.toISOString())
+      .from("orders")
+      .select("amount, status")
+      .gte("created_at", today.toISOString());
 
     if (!error && data) {
-      const totalSales = data.reduce((sum, order) => sum + order.amount, 0)
-      const pendingOrders = data.filter(o => o.status === 'pending').length
+      const totalSales = data.reduce((sum, order) => sum + order.amount, 0);
+      const pendingOrders = data.filter((o) => o.status === "pending").length;
 
       setStats({
         totalSales,
         totalOrders: data.length,
-        pendingOrders
-      })
+        pendingOrders,
+      });
     }
   }
 
@@ -210,16 +215,16 @@ npm install next-auth
 
 ```typescript
 // app/api/auth/[...nextauth]/route.ts
-import NextAuth from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         // Check against environment variables
@@ -227,33 +232,33 @@ const handler = NextAuth({
           credentials?.username === process.env.ADMIN_USERNAME &&
           credentials?.password === process.env.ADMIN_PASSWORD
         ) {
-          return { id: '1', name: 'Admin', email: 'admin@hypex.de' }
+          return { id: "1", name: "Admin", email: "admin@hypex.cloud" };
         }
-        return null
-      }
-    })
+        return null;
+      },
+    }),
   ],
   pages: {
-    signIn: '/admin/login',
+    signIn: "/admin/login",
   },
   session: {
-    strategy: 'jwt',
-  }
-})
+    strategy: "jwt",
+  },
+});
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };
 ```
 
 ```typescript
 // app/admin/page.tsx
-import { getServerSession } from 'next-auth'
-import { redirect } from 'next/navigation'
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 export default async function AdminDashboard() {
-  const session = await getServerSession()
-  
+  const session = await getServerSession();
+
   if (!session) {
-    redirect('/admin/login')
+    redirect("/admin/login");
   }
 
   // ... rest of dashboard
@@ -270,13 +275,13 @@ npm install resend
 
 ```typescript
 // lib/email.ts
-import { Resend } from 'resend'
+import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendOrderConfirmation(order: any) {
   await resend.emails.send({
-    from: 'Hypex <noreply@hypex.de>',
+    from: "Hypex <noreply@hypex.cloud>",
     to: order.customer_email,
     subject: `Bestellbestätigung - ${order.order_id}`,
     html: `
@@ -285,8 +290,8 @@ export async function sendOrderConfirmation(order: any) {
       <p>Produkt: ${order.product_name}</p>
       <p>Betrag: ${order.amount}€</p>
       <p>Wir bearbeiten deine Bestellung und melden uns in Kürze.</p>
-    `
-  })
+    `,
+  });
 }
 ```
 
@@ -317,10 +322,11 @@ RESEND_API_KEY=your_resend_api_key
 If you want to get started quickly without a database:
 
 ### Option: Log to File (Temporary)
+
 ```typescript
 // app/api/stripe/webhook/route.ts
-import fs from 'fs'
-import path from 'path'
+import fs from "fs";
+import path from "path";
 
 // After successful payment
 const orderData = {
@@ -328,12 +334,12 @@ const orderData = {
   email: session.customer_email,
   product: session.metadata?.product_name,
   amount: session.amount_total,
-  date: new Date().toISOString()
-}
+  date: new Date().toISOString(),
+};
 
 // Append to file
-const logPath = path.join(process.cwd(), 'orders.log')
-fs.appendFileSync(logPath, JSON.stringify(orderData) + '\n')
+const logPath = path.join(process.cwd(), "orders.log");
+fs.appendFileSync(logPath, JSON.stringify(orderData) + "\n");
 ```
 
 ---
@@ -341,10 +347,12 @@ fs.appendFileSync(logPath, JSON.stringify(orderData) + '\n')
 ## 📊 Alternative: Use Stripe Dashboard
 
 Without setting up a database, you can track orders directly in:
+
 - **Stripe Dashboard**: https://dashboard.stripe.com/payments
 - **PayPal Dashboard**: https://www.paypal.com/activity
 
 Both show:
+
 - Customer emails
 - Order amounts
 - Payment status

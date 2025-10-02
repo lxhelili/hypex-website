@@ -1,65 +1,69 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import Script from 'next/script'
-import PayPalProvider from './components/PayPalProvider'
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import Script from "next/script";
+import PayPalProvider from "./components/PayPalProvider";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Hypex - Dein Partner für Reichweite, Abos & Google Sichtbarkeit',
-  description: 'Follower & Likes für Instagram, TikTok, Twitch & mehr. Premium-Abos für 12 Monate. Google Maps Bewertungen & Knowledge Panels für Business & Privat.',
-  keywords: 'Instagram Follower, TikTok Likes, Twitch Abos, Social Media Marketing, Google Maps Bewertungen, Premium Abos, Spotify, Netflix',
-  authors: [{ name: 'Hypex Team' }],
-  creator: 'Hypex',
-  publisher: 'Hypex',
+  title: "Hypex - Dein Partner für Reichweite, Abos & Google Sichtbarkeit",
+  description:
+    "Follower & Likes für Instagram, TikTok, Twitch & mehr. Premium-Abos für 12 Monate. Google Maps Bewertungen & Knowledge Panels für Business & Privat.",
+  keywords:
+    "Instagram Follower, TikTok Likes, Twitch Abos, Social Media Marketing, Google Maps Bewertungen, Premium Abos, Spotify, Netflix",
+  authors: [{ name: "Hypex Team" }],
+  creator: "Hypex",
+  publisher: "Hypex",
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
-    type: 'website',
-    locale: 'de_DE',
-    url: 'https://hypex.de',
-    title: 'Hypex - Dein Partner für Reichweite, Abos & Google Sichtbarkeit',
-    description: 'Follower & Likes für Instagram, TikTok, Twitch & mehr. Premium-Abos für 12 Monate. Google Maps Bewertungen & Knowledge Panels.',
-    siteName: 'Hypex',
+    type: "website",
+    locale: "de_DE",
+    url: "https://hypex.cloud",
+    title: "Hypex - Dein Partner für Reichweite, Abos & Google Sichtbarkeit",
+    description:
+      "Follower & Likes für Instagram, TikTok, Twitch & mehr. Premium-Abos für 12 Monate. Google Maps Bewertungen & Knowledge Panels.",
+    siteName: "Hypex",
     images: [
       {
-        url: '/og-image.jpg',
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: 'Hypex - Social Media Services',
+        alt: "Hypex - Social Media Services",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Hypex - Dein Partner für Reichweite, Abos & Google Sichtbarkeit',
-    description: 'Follower & Likes für Instagram, TikTok, Twitch & mehr. Premium-Abos für 12 Monate.',
-    images: ['/og-image.jpg'],
+    card: "summary_large_image",
+    title: "Hypex - Dein Partner für Reichweite, Abos & Google Sichtbarkeit",
+    description:
+      "Follower & Likes für Instagram, TikTok, Twitch & mehr. Premium-Abos für 12 Monate.",
+    images: ["/og-image.jpg"],
   },
   viewport: {
-    width: 'device-width',
+    width: "device-width",
     initialScale: 1,
     maximumScale: 1,
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: "your-google-verification-code",
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="de" className="scroll-smooth">
@@ -69,10 +73,8 @@ export default function RootLayout({
         <meta name="theme-color" content="#667eea" />
       </head>
       <body className={`${inter.className} antialiased`}>
-        <PayPalProvider>
-          {children}
-        </PayPalProvider>
-        
+        <PayPalProvider>{children}</PayPalProvider>
+
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
@@ -92,5 +94,5 @@ export default function RootLayout({
         )}
       </body>
     </html>
-  )
+  );
 }

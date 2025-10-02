@@ -3,9 +3,11 @@
 ## 🔥 Immediate Next Steps
 
 ### 1. Fix Critical Issue (URGENT)
+
 The Contact component has a JSX syntax error preventing compilation.
 
 **To Fix:**
+
 ```bash
 # Navigate to project
 cd /Users/lavdim/Desktop/LandingCata
@@ -20,6 +22,7 @@ rm app/components/Contact.tsx
 ```
 
 ### 2. Environment Setup
+
 ```bash
 # 1. Copy environment template
 cp .env.local .env.local.backup
@@ -29,10 +32,11 @@ cp .env.local .env.local.backup
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
 STRIPE_SECRET_KEY=sk_live_...
 STRIPE_WEBHOOK_SECRET=whsec_...
-NEXT_PUBLIC_DOMAIN=https://hypex.de
+NEXT_PUBLIC_DOMAIN=https://hypex.cloud
 ```
 
 ### 3. Test & Deploy
+
 ```bash
 # Install and start
 npm install
@@ -50,6 +54,7 @@ vercel deploy
 ## 📋 Pre-Launch Checklist
 
 ### Technical
+
 - [ ] Fix Contact.tsx JSX syntax error
 - [ ] Test all payment flows
 - [ ] Verify webhook endpoints
@@ -58,6 +63,7 @@ vercel deploy
 - [ ] Validate all environment variables
 
 ### Content
+
 - [ ] Update social media links
 - [ ] Add real testimonials
 - [ ] Update contact information
@@ -65,6 +71,7 @@ vercel deploy
 - [ ] Check legal compliance (Impressum, DSGVO)
 
 ### Business
+
 - [ ] Set up Stripe webhook in production
 - [ ] Configure domain DNS
 - [ ] Set up order fulfillment process
@@ -74,6 +81,7 @@ vercel deploy
 ## 🛠️ Development Workflow
 
 ### Daily Development
+
 ```bash
 # Start development
 npm run dev
@@ -87,12 +95,14 @@ git push
 ```
 
 ### Adding New Services
+
 1. Update `SocialMediaServices.tsx`
 2. Add to Stripe products in `lib/stripe.ts`
 3. Test payment flow
 4. Update documentation
 
 ### Deployment
+
 ```bash
 # Build and test locally
 npm run build
@@ -108,10 +118,12 @@ vercel --prod
 ## 🚨 Current Known Issues
 
 1. **Contact.tsx Compilation Error** (Critical)
+
    - Prevents app from starting
    - Need to recreate component
 
 2. **Environment Variables** (Important)
+
    - Test keys in .env.local
    - Need production Stripe keys
 
@@ -125,7 +137,7 @@ If you encounter issues:
 
 1. **Check the logs**: Look at terminal output for error details
 2. **Consult documentation**: README.md has comprehensive info
-3. **Common fixes**: 
+3. **Common fixes**:
    - `rm -rf .next && npm run dev` (clear cache)
    - `rm -rf node_modules && npm install` (fresh install)
    - Check environment variables are set correctly
@@ -133,16 +145,19 @@ If you encounter issues:
 ## 🎯 Next Phase Planning
 
 ### Week 1: Bug Fixes
+
 - Fix Contact component
 - Test all functionality
 - Deploy to staging
 
 ### Week 2: Content & Polish
+
 - Add real content
 - Optimize performance
 - Final testing
 
 ### Week 3: Launch
+
 - Production deployment
 - Marketing launch
 - Monitor and optimize
@@ -150,6 +165,7 @@ If you encounter issues:
 ## 📈 Success Metrics
 
 Track these after launch:
+
 - Conversion rate (visitors to purchases)
 - Payment completion rate
 - Support ticket volume
@@ -159,6 +175,7 @@ Track these after launch:
 ---
 
 **Priority Order:**
+
 1. Fix Contact.tsx (blocks everything)
 2. Test payment flow
 3. Deploy to staging

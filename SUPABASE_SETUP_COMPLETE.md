@@ -3,6 +3,7 @@
 ## ✅ What We've Built
 
 Your admin dashboard is now ready with:
+
 - 📊 Real-time sales tracking
 - 📦 Order management
 - 🎫 Support ticket system
@@ -122,6 +123,7 @@ PAYPAL_CLIENT_SECRET=xxx
 ```
 
 **Generate NEXTAUTH_SECRET:**
+
 ```bash
 openssl rand -base64 32
 ```
@@ -133,11 +135,13 @@ npm run dev
 ```
 
 **Access URLs:**
+
 - **Landing Page:** http://localhost:3000
 - **Admin Login:** http://localhost:3000/admin/login
 - **Dashboard:** http://localhost:3000/admin/dashboard
 
 **Login with:**
+
 - Username: `admin`
 - Password: Whatever you set in `.env.local`
 
@@ -151,13 +155,13 @@ Add test orders and tickets in Supabase SQL Editor:
 
 ```sql
 INSERT INTO orders (order_id, customer_email, customer_name, product_name, amount, status, payment_method)
-VALUES 
+VALUES
   ('ORD-TEST-001', 'max@example.com', 'Max Mustermann', 'Instagram Follower - 5.000', 14.99, 'completed', 'stripe'),
   ('ORD-TEST-002', 'anna@example.com', 'Anna Schmidt', 'Spotify Premium - 12 Monate', 39.99, 'completed', 'paypal'),
   ('ORD-TEST-003', 'tom@example.com', 'Tom Weber', 'TikTok Follower - 10.000', 27.99, 'pending', 'stripe');
 
 INSERT INTO tickets (ticket_id, customer_name, customer_email, subject, message, status, priority)
-VALUES 
+VALUES
   ('TKT-001', 'Lisa Müller', 'lisa@example.com', 'Bestellung nicht erhalten', 'Hallo, ich habe meine Bestellung noch nicht bekommen.', 'open', 'high'),
   ('TKT-002', 'Peter Klein', 'peter@example.com', 'Frage zu Spotify Abo', 'Wie lange dauert die Aktivierung?', 'open', 'normal');
 ```
@@ -179,12 +183,14 @@ Refresh your dashboard - you should see the data!
 ### **What You Can See:**
 
 **Stats Cards:**
+
 - 💰 Today's sales (€)
 - 📦 Total orders
 - 📈 Total revenue
 - 🎫 Open support tickets
 
 **Orders Tab:**
+
 - Order ID
 - Customer name & email
 - Product purchased
@@ -194,6 +200,7 @@ Refresh your dashboard - you should see the data!
 - Order date
 
 **Tickets Tab:**
+
 - Ticket ID
 - Customer info
 - Subject
@@ -210,43 +217,50 @@ Refresh your dashboard - you should see the data!
 Create `app/api/tickets/create/route.ts`:
 
 ```typescript
-import { NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json()
-    const { name, email, subject, message, order_id } = body
+    const body = await req.json();
+    const { name, email, subject, message, order_id } = body;
 
     // Validate input
     if (!name || !email || !subject || !message) {
       return NextResponse.json(
-        { error: 'All fields are required' },
+        { error: "All fields are required" },
         { status: 400 }
-      )
+      );
     }
 
     // Generate ticket ID
-    const ticketId = `TKT-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`
+    const ticketId = `TKT-${Date.now()}-${Math.random()
+      .toString(36)
+      .substr(2, 6)
+      .toUpperCase()}`;
 
     // Insert ticket
-    const { data, error } = await supabaseAdmin.from('tickets').insert({
-      ticket_id: ticketId,
-      customer_name: name,
-      customer_email: email,
-      subject,
-      message,
-      order_id: order_id || null,
-      status: 'open',
-      priority: 'normal'
-    }).select().single()
+    const { data, error } = await supabaseAdmin
+      .from("tickets")
+      .insert({
+        ticket_id: ticketId,
+        customer_name: name,
+        customer_email: email,
+        subject,
+        message,
+        order_id: order_id || null,
+        status: "open",
+        priority: "normal",
+      })
+      .select()
+      .single();
 
     if (error) {
-      console.error('Error creating ticket:', error)
+      console.error("Error creating ticket:", error);
       return NextResponse.json(
-        { error: 'Failed to create ticket' },
+        { error: "Failed to create ticket" },
         { status: 500 }
-      )
+      );
     }
 
     // TODO: Send confirmation email to customer
@@ -254,15 +268,14 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      ticket: data
-    })
-
+      ticket: data,
+    });
   } catch (error) {
-    console.error('Error:', error)
+    console.error("Error:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
-    )
+    );
   }
 }
 ```
@@ -273,49 +286,55 @@ Add this to your landing page or create a new support page:
 
 ```typescript
 // app/components/SupportForm.tsx
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { MessageCircle, Send } from 'lucide-react'
+import { useState } from "react";
+import { MessageCircle, Send } from "lucide-react";
 
 export default function SupportForm() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-    order_id: ''
-  })
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState('')
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    order_id: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
-      const response = await fetch('/api/tickets/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
+      const response = await fetch("/api/tickets/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok) {
-        setSuccess(true)
-        setFormData({ name: '', email: '', subject: '', message: '', order_id: '' })
+        setSuccess(true);
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+          order_id: "",
+        });
       } else {
-        setError(data.error || 'Fehler beim Senden')
+        setError(data.error || "Fehler beim Senden");
       }
     } catch (err) {
-      setError('Verbindungsfehler')
+      setError("Verbindungsfehler");
     }
 
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   if (success) {
     return (
@@ -323,10 +342,12 @@ export default function SupportForm() {
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <MessageCircle className="w-8 h-8 text-green-600" />
         </div>
-        <h3 className="text-xl font-bold text-gray-900 mb-2">Ticket erstellt!</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">
+          Ticket erstellt!
+        </h3>
         <p className="text-gray-600">Wir melden uns in Kürze bei dir.</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -345,7 +366,7 @@ export default function SupportForm() {
           <input
             type="text"
             value={formData.name}
-            onChange={(e) => setFormData({...formData, name: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ed07f6]"
             required
           />
@@ -358,7 +379,9 @@ export default function SupportForm() {
           <input
             type="email"
             value={formData.email}
-            onChange={(e) => setFormData({...formData, email: e.target.value})}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ed07f6]"
             required
           />
@@ -372,7 +395,9 @@ export default function SupportForm() {
         <input
           type="text"
           value={formData.order_id}
-          onChange={(e) => setFormData({...formData, order_id: e.target.value})}
+          onChange={(e) =>
+            setFormData({ ...formData, order_id: e.target.value })
+          }
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ed07f6]"
           placeholder="ORD-XXX"
         />
@@ -384,12 +409,16 @@ export default function SupportForm() {
         </label>
         <select
           value={formData.subject}
-          onChange={(e) => setFormData({...formData, subject: e.target.value})}
+          onChange={(e) =>
+            setFormData({ ...formData, subject: e.target.value })
+          }
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ed07f6]"
           required
         >
           <option value="">Wähle ein Thema</option>
-          <option value="Bestellung nicht erhalten">Bestellung nicht erhalten</option>
+          <option value="Bestellung nicht erhalten">
+            Bestellung nicht erhalten
+          </option>
           <option value="Rückerstattung">Rückerstattung</option>
           <option value="Technisches Problem">Technisches Problem</option>
           <option value="Allgemeine Frage">Allgemeine Frage</option>
@@ -402,7 +431,9 @@ export default function SupportForm() {
         </label>
         <textarea
           value={formData.message}
-          onChange={(e) => setFormData({...formData, message: e.target.value})}
+          onChange={(e) =>
+            setFormData({ ...formData, message: e.target.value })
+          }
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ed07f6]"
           rows={5}
           required
@@ -424,7 +455,7 @@ export default function SupportForm() {
         )}
       </button>
     </form>
-  )
+  );
 }
 ```
 
@@ -442,14 +473,14 @@ Create email utility:
 
 ```typescript
 // lib/email.ts
-import { Resend } from 'resend'
+import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendOrderConfirmation(order: any) {
   try {
     await resend.emails.send({
-      from: 'Hypex <noreply@hypex.de>',
+      from: "Hypex <noreply@hypex.cloud>",
       to: order.customer_email,
       subject: `Bestellbestätigung - ${order.order_id}`,
       html: `
@@ -459,17 +490,17 @@ export async function sendOrderConfirmation(order: any) {
         <p><strong>Betrag:</strong> €${order.amount}</p>
         <p>Wir bearbeiten deine Bestellung und melden uns in Kürze.</p>
         <p>Bei Fragen kontaktiere uns einfach!</p>
-      `
-    })
+      `,
+    });
   } catch (error) {
-    console.error('Email error:', error)
+    console.error("Email error:", error);
   }
 }
 
 export async function sendTicketConfirmation(ticket: any) {
   try {
     await resend.emails.send({
-      from: 'Hypex Support <support@hypex.de>',
+      from: "Hypex Support <support@hypex.cloud>",
       to: ticket.customer_email,
       subject: `Ticket erstellt - ${ticket.ticket_id}`,
       html: `
@@ -477,10 +508,10 @@ export async function sendTicketConfirmation(ticket: any) {
         <p><strong>Ticket-ID:</strong> ${ticket.ticket_id}</p>
         <p><strong>Betreff:</strong> ${ticket.subject}</p>
         <p>Wir melden uns innerhalb von 24 Stunden bei dir.</p>
-      `
-    })
+      `,
+    });
   } catch (error) {
-    console.error('Email error:', error)
+    console.error("Email error:", error);
   }
 }
 ```
@@ -490,19 +521,23 @@ export async function sendTicketConfirmation(ticket: any) {
 ## 🎯 Quick Reference
 
 ### **Dashboard URLs:**
+
 - Login: `/admin/login`
 - Dashboard: `/admin/dashboard`
 
 ### **Default Credentials:**
+
 - Username: `admin`
 - Password: From `.env.local`
 
 ### **Database Tables:**
+
 - `orders` - All customer orders
 - `tickets` - Support tickets
 - `ticket_replies` - Ticket conversations
 
 ### **Key Files:**
+
 - `/lib/supabase.ts` - Database client
 - `/app/admin/dashboard/page.tsx` - Main dashboard
 - `/app/api/stripe/webhook/route.ts` - Stripe integration
@@ -520,6 +555,7 @@ Your complete dashboard is now set up with:
 ✅ Real-time database
 
 **Next Steps:**
+
 1. Create Supabase account
 2. Run the SQL to create tables
 3. Add credentials to `.env.local`

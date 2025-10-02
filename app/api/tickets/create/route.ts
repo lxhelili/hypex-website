@@ -23,6 +23,14 @@ export async function POST(req: Request) {
       )
     }
 
+    // Check if supabaseAdmin is available
+    if (!supabaseAdmin) {
+      return NextResponse.json(
+        { error: 'Database not configured' },
+        { status: 500 }
+      )
+    }
+
     // Generate unique ticket ID
     const timestamp = Date.now()
     const randomStr = Math.random().toString(36).substr(2, 6).toUpperCase()
@@ -53,9 +61,6 @@ export async function POST(req: Request) {
     }
 
     console.log('Ticket created successfully:', ticketId)
-
-    // TODO: Send confirmation email to customer
-    // TODO: Send notification email to admin
 
     return NextResponse.json({
       success: true,

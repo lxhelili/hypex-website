@@ -1,13 +1,13 @@
-import NextAuth, { NextAuthOptions } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
+import NextAuth, { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         // Check against environment variables
@@ -16,40 +16,40 @@ export const authOptions: NextAuthOptions = {
           credentials?.password === process.env.ADMIN_PASSWORD
         ) {
           return {
-            id: '1',
-            name: 'Admin',
-            email: 'admin@hypex.de',
-            role: 'admin'
-          }
+            id: "1",
+            name: "Admin",
+            email: "admin@hypex.cloud",
+            role: "admin",
+          };
         }
-        return null
-      }
-    })
+        return null;
+      },
+    }),
   ],
   pages: {
-    signIn: '/admin/login',
+    signIn: "/admin/login",
   },
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
     maxAge: 24 * 60 * 60, // 24 hours
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role
+        token.role = (user as any).role;
       }
-      return token
+      return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).role = token.role
+        (session.user as any).role = token.role;
       }
-      return session
-    }
+      return session;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
-}
+};
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

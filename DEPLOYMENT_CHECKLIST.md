@@ -5,8 +5,9 @@
 ### 🔧 Technical Setup
 
 #### Environment Variables
+
 - [ ] `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key
-- [ ] `STRIPE_SECRET_KEY` - Stripe secret key  
+- [ ] `STRIPE_SECRET_KEY` - Stripe secret key
 - [ ] `STRIPE_WEBHOOK_SECRET` - Stripe webhook signing secret
 - [ ] `NEXT_PUBLIC_PAYPAL_CLIENT_ID` - PayPal client ID
 - [ ] `PAYPAL_CLIENT_SECRET` - PayPal client secret
@@ -14,6 +15,7 @@
 - [ ] `NEXT_PUBLIC_GA_ID` - Google Analytics tracking ID
 
 #### Stripe Configuration
+
 - [ ] Create Stripe account and complete verification
 - [ ] Switch to live mode in production
 - [ ] Set up webhook endpoint: `https://yourdomain.com/api/stripe/webhook`
@@ -21,7 +23,8 @@
 - [ ] Test webhook delivery
 - [ ] Configure tax settings if needed
 
-#### PayPal Configuration  
+#### PayPal Configuration
+
 - [ ] Create PayPal developer account
 - [ ] Create live application
 - [ ] Get live client credentials
@@ -31,6 +34,7 @@
 ### 🎯 Content & Business Setup
 
 #### Legal & Compliance
+
 - [ ] Create Impressum page
 - [ ] Create AGB (Terms & Conditions)
 - [ ] Create Datenschutzerklärung (Privacy Policy)
@@ -39,6 +43,7 @@
 - [ ] DSGVO compliance check
 
 #### Contact Information
+
 - [ ] Update real Telegram support link
 - [ ] Update real WhatsApp number
 - [ ] Update real email address
@@ -46,6 +51,7 @@
 - [ ] Set up order fulfillment process
 
 #### Content Review
+
 - [ ] Review all pricing information
 - [ ] Update testimonials with real reviews
 - [ ] Check all service descriptions
@@ -55,6 +61,7 @@
 ### 🔍 Testing & Quality Assurance
 
 #### Payment Testing
+
 - [ ] Test Stripe checkout flow (live mode with small amount)
 - [ ] Test PayPal payment flow
 - [ ] Test webhook processing
@@ -63,13 +70,15 @@
 - [ ] Test different payment methods (cards, SEPA, etc.)
 
 #### Cross-Browser Testing
+
 - [ ] Chrome (latest)
-- [ ] Firefox (latest)  
+- [ ] Firefox (latest)
 - [ ] Safari (latest)
 - [ ] Edge (latest)
 - [ ] Mobile browsers (iOS Safari, Chrome Mobile)
 
 #### Device Testing
+
 - [ ] Desktop (1920x1080, 1366x768)
 - [ ] Tablet (iPad, Android tablet)
 - [ ] Mobile (iPhone, Android phones)
@@ -77,6 +86,7 @@
 - [ ] Test mobile navigation
 
 #### Performance Testing
+
 - [ ] Lighthouse score > 90
 - [ ] Page load time < 3 seconds
 - [ ] Image optimization
@@ -84,6 +94,7 @@
 - [ ] CSS optimization
 
 #### SEO Testing
+
 - [ ] Meta tags configured
 - [ ] Open Graph tags
 - [ ] Twitter cards
@@ -113,6 +124,7 @@ vercel domains add yourdomain.com
 ### 2. Environment Variables Setup
 
 In Vercel Dashboard:
+
 1. Go to Project Settings → Environment Variables
 2. Add all production environment variables
 3. Redeploy to apply changes
@@ -120,13 +132,14 @@ In Vercel Dashboard:
 ### 3. Domain Configuration
 
 1. **DNS Setup**
+
    ```
    Type: CNAME
    Name: www
    Value: cname.vercel-dns.com
-   
+
    Type: A
-   Name: @  
+   Name: @
    Value: 76.76.19.61
    ```
 
@@ -138,6 +151,7 @@ In Vercel Dashboard:
 ### 4. Webhook Configuration
 
 1. **Stripe Webhooks**
+
    ```
    Endpoint URL: https://yourdomain.com/api/stripe/webhook
    Events: checkout.session.completed, payment_intent.succeeded
@@ -152,18 +166,21 @@ In Vercel Dashboard:
 ## 📊 Post-Deployment Monitoring
 
 ### Analytics Setup
+
 - [ ] Google Analytics 4 configured
 - [ ] Conversion tracking setup
 - [ ] Goals configured (purchases, form submissions)
 - [ ] Enhanced ecommerce tracking
 
 ### Error Monitoring
+
 - [ ] Set up error tracking (Sentry recommended)
 - [ ] Monitor webhook delivery success
 - [ ] Set up uptime monitoring
 - [ ] Configure alerts for critical errors
 
 ### Performance Monitoring
+
 - [ ] Monitor Core Web Vitals
 - [ ] Track page load speeds
 - [ ] Monitor conversion funnel
@@ -172,12 +189,14 @@ In Vercel Dashboard:
 ## 🔧 Order Fulfillment Setup
 
 ### Automated Fulfillment
+
 - [ ] Set up order processing webhook
 - [ ] Configure email notifications
 - [ ] Create fulfillment dashboard
 - [ ] Set up inventory tracking
 
 ### Support System
+
 - [ ] Configure support ticket system
 - [ ] Set up Telegram/WhatsApp auto-responders
 - [ ] Create order status tracking
@@ -186,6 +205,7 @@ In Vercel Dashboard:
 ## 📈 Business KPIs to Track
 
 ### Conversion Metrics
+
 - [ ] Conversion rate (visitors → customers)
 - [ ] Payment completion rate
 - [ ] Average order value
@@ -193,6 +213,7 @@ In Vercel Dashboard:
 - [ ] Cart abandonment rate
 
 ### Traffic Metrics
+
 - [ ] Unique visitors
 - [ ] Page views
 - [ ] Bounce rate
@@ -200,6 +221,7 @@ In Vercel Dashboard:
 - [ ] Traffic sources
 
 ### Revenue Metrics
+
 - [ ] Daily/Monthly revenue
 - [ ] Revenue by service type
 - [ ] Payment method preferences
@@ -209,6 +231,7 @@ In Vercel Dashboard:
 ## 🎯 Launch Strategy
 
 ### Soft Launch (Week 1)
+
 - [ ] Deploy to production
 - [ ] Test with small traffic
 - [ ] Monitor all systems
@@ -216,6 +239,7 @@ In Vercel Dashboard:
 - [ ] Collect initial feedback
 
 ### Full Launch (Week 2)
+
 - [ ] Announce on social media
 - [ ] Start marketing campaigns
 - [ ] Monitor scaling needs
@@ -223,6 +247,7 @@ In Vercel Dashboard:
 - [ ] Scale infrastructure if needed
 
 ### Post-Launch (Week 3+)
+
 - [ ] A/B testing setup
 - [ ] Conversion optimization
 - [ ] Customer feedback analysis
@@ -232,7 +257,9 @@ In Vercel Dashboard:
 ## 🚨 Emergency Procedures
 
 ### Payment Issues
+
 1. **Stripe Down**
+
    - Switch to PayPal-only temporarily
    - Update payment modal messaging
    - Monitor Stripe status page
@@ -243,7 +270,9 @@ In Vercel Dashboard:
    - Enhance order verification
 
 ### Technical Issues
+
 1. **Site Down**
+
    - Check Vercel status
    - Verify DNS settings
    - Check error logs
@@ -256,6 +285,7 @@ In Vercel Dashboard:
    - Scale server resources
 
 ### Business Issues
+
 1. **Support Overload**
    - Add temporary auto-responses
    - Scale support team
@@ -265,12 +295,14 @@ In Vercel Dashboard:
 ## 📞 Emergency Contacts
 
 ### Technical Support
+
 - **Vercel Support**: support@vercel.com
 - **Stripe Support**: support@stripe.com
 - **PayPal Support**: developer support portal
 - **Domain Registrar**: [Your provider]
 
 ### Business Contacts
+
 - **Payment Processor**: [Bank/financial institution]
 - **Legal Advisor**: [Law firm]
 - **Accountant**: [Accounting firm]
@@ -279,8 +311,9 @@ In Vercel Dashboard:
 ## 🎉 Launch Announcement Template
 
 ### Social Media Post
+
 ```
-🚀 Hypex ist jetzt LIVE! 
+🚀 Hypex ist jetzt LIVE!
 
 ✨ Social Media Services für Instagram, TikTok & mehr
 💎 Premium Abos für 12 Monate (Spotify, Netflix, etc.)
@@ -288,12 +321,13 @@ In Vercel Dashboard:
 💳 Sichere Zahlung mit Stripe & PayPal
 🔒 100% DSGVO-konform
 
-Starte jetzt: https://hypex.de
+Starte jetzt: https://hypex.cloud
 
 #DigitalMarketing #SocialMedia #Hypex
 ```
 
 ### Email Announcement
+
 ```
 Subject: 🎉 Hypex ist live - Dein Partner für digitales Wachstum
 
@@ -307,10 +341,10 @@ nach monatelanger Entwicklung ist es soweit - Hypex geht live!
 • Google Maps Bewertungen & Knowledge Panels
 • 24/7 Support via Telegram & WhatsApp
 
-💎 Launch Special: 
+💎 Launch Special:
 Die ersten 100 Kunden erhalten 15% Rabatt mit Code: LAUNCH15
 
-Jetzt entdecken: https://hypex.de
+Jetzt entdecken: https://hypex.cloud
 
 Dein Hypex Team
 ```
@@ -320,6 +354,7 @@ Dein Hypex Team
 ## 📝 Final Checklist Summary
 
 **Before Going Live:**
+
 - [ ] All environment variables configured
 - [ ] Payments tested (Stripe + PayPal)
 - [ ] Legal pages created
@@ -331,6 +366,7 @@ Dein Hypex Team
 - [ ] Error monitoring setup
 
 **After Going Live:**
+
 - [ ] Monitor first transactions
 - [ ] Check webhook delivery
 - [ ] Monitor error rates
@@ -339,6 +375,7 @@ Dein Hypex Team
 - [ ] Optimize based on data
 
 **Success Metrics (30 days post-launch):**
+
 - [ ] > 2% conversion rate
 - [ ] > 95% payment success rate
 - [ ] < 3s page load time

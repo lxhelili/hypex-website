@@ -35,24 +35,28 @@ Hypex is a comprehensive landing page for a digital marketing agency offering:
 ## ✨ Features
 
 ### 🎨 Design & UX
+
 - **Responsive Design**: Mobile-first, works on all devices
 - **Modern UI**: Glassmorphism, gradients, smooth animations
 - **Dark/Light Theme**: Automatic theme switching
 - **Accessibility**: WCAG 2.1 compliant
 
 ### 💳 Payment Integration
+
 - **Stripe Checkout**: Secure payment processing
 - **Multiple Payment Methods**: Cards, PayPal, SEPA
 - **Webhook Handling**: Real-time order processing
 - **Success/Cancel Pages**: Complete user journey
 
 ### 🔧 Technical Features
+
 - **TypeScript**: Full type safety
 - **SEO Optimized**: Meta tags, structured data
 - **Performance**: Lighthouse score 90+
 - **Error Handling**: Comprehensive error boundaries
 
 ### 📊 Business Features
+
 - **Service Catalog**: Organized by platform
 - **Pricing Tables**: Clear, competitive pricing
 - **Trust Indicators**: Reviews, testimonials, guarantees
@@ -61,6 +65,7 @@ Hypex is a comprehensive landing page for a digital marketing agency offering:
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **Framework**: Next.js 13.5.6 (App Router)
 - **Language**: TypeScript 5.x
 - **Styling**: Tailwind CSS 3.3.0
@@ -69,12 +74,14 @@ Hypex is a comprehensive landing page for a digital marketing agency offering:
 - **Forms**: React Hook Form
 
 ### Backend & Services
+
 - **Payments**: Stripe 13.11.0
 - **Email**: SMTP integration ready
 - **Analytics**: Google Analytics 4 ready
 - **Hosting**: Vercel optimized
 
 ### Development
+
 - **Package Manager**: npm
 - **Linting**: ESLint + Next.js config
 - **Type Checking**: TypeScript strict mode
@@ -83,6 +90,7 @@ Hypex is a comprehensive landing page for a digital marketing agency offering:
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 16.x or higher
 - npm or yarn
 - Stripe account (for payments)
@@ -90,23 +98,27 @@ Hypex is a comprehensive landing page for a digital marketing agency offering:
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd LandingCata
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env.local
    # Edit .env.local with your values
    ```
 
 4. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -174,7 +186,7 @@ STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 
 # Domain
-NEXT_PUBLIC_DOMAIN=https://hypex.de
+NEXT_PUBLIC_DOMAIN=https://hypex.cloud
 
 # Analytics
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
@@ -194,10 +206,12 @@ SMTP_PASS=your-app-password
 ### Stripe Setup
 
 1. **Create Stripe Account**
+
    - Go to [stripe.com](https://stripe.com)
    - Create account and verify
 
 2. **Get API Keys**
+
    - Dashboard → Developers → API Keys
    - Copy publishable and secret keys
 
@@ -211,16 +225,19 @@ SMTP_PASS=your-app-password
 ### Vercel (Recommended)
 
 1. **Install Vercel CLI**
+
    ```bash
    npm i -g vercel
    ```
 
 2. **Deploy**
+
    ```bash
    vercel
    ```
 
 3. **Configure Environment Variables**
+
    - Go to Vercel dashboard
    - Project Settings → Environment Variables
    - Add all variables from `.env.local`
@@ -233,6 +250,7 @@ SMTP_PASS=your-app-password
 ### Manual Deployment
 
 1. **Build the project**
+
    ```bash
    npm run build
    ```
@@ -271,22 +289,25 @@ Create a new checkout session for payment processing.
 ```
 
 **Example Usage:**
+
 ```typescript
-const response = await fetch('/api/stripe/checkout', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("/api/stripe/checkout", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    items: [{
-      name: 'Instagram Follower - 1K',
-      description: '1000 echte Instagram Follower',
-      price: 9.99
-    }],
+    items: [
+      {
+        name: "Instagram Follower - 1K",
+        description: "1000 echte Instagram Follower",
+        price: 9.99,
+      },
+    ],
     metadata: {
-      platform: 'Instagram',
-      service: 'Follower'
-    }
-  })
-})
+      platform: "Instagram",
+      service: "Follower",
+    },
+  }),
+});
 ```
 
 ### Stripe Webhook
@@ -296,6 +317,7 @@ const response = await fetch('/api/stripe/checkout', {
 Handles Stripe webhook events for payment processing.
 
 **Supported Events:**
+
 - `checkout.session.completed` - Payment successful
 - `payment_intent.payment_failed` - Payment failed
 
@@ -311,17 +333,17 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          500: '#667eea',
-          600: '#5a67d8',
-          700: '#4c51bf'
+          500: "#667eea",
+          600: "#5a67d8",
+          700: "#4c51bf",
         },
         secondary: {
-          600: '#764ba2'
-        }
-      }
-    }
-  }
-}
+          600: "#764ba2",
+        },
+      },
+    },
+  },
+};
 ```
 
 ### Services
@@ -331,21 +353,21 @@ Update `app/components/SocialMediaServices.tsx`:
 ```typescript
 const services = [
   {
-    platform: 'Instagram',
-    icon: '📸',
-    color: 'from-pink-500 to-purple-600',
+    platform: "Instagram",
+    icon: "📸",
+    color: "from-pink-500 to-purple-600",
     services: [
-      { 
-        name: 'Follower', 
-        price: 'ab 9.99€', 
+      {
+        name: "Follower",
+        price: "ab 9.99€",
         priceNum: 9.99,
-        description: '1000 echte Instagram Follower' 
-      }
+        description: "1000 echte Instagram Follower",
+      },
       // Add more services
-    ]
-  }
+    ],
+  },
   // Add more platforms
-]
+];
 ```
 
 ## 🐛 Troubleshooting
@@ -353,6 +375,7 @@ const services = [
 ### Common Issues
 
 1. **Build Errors**
+
    ```bash
    # Clear Next.js cache
    rm -rf .next
@@ -360,12 +383,14 @@ const services = [
    ```
 
 2. **TypeScript Errors**
+
    ```bash
    # Check for type errors
    npx tsc --noEmit
    ```
 
 3. **Stripe Webhook Issues**
+
    - Verify webhook secret in Stripe dashboard
    - Check webhook endpoint URL
    - Review webhook event selection
@@ -378,6 +403,7 @@ const services = [
 ### Performance Issues
 
 1. **Slow Loading**
+
    - Optimize images (use next/image)
    - Enable compression
    - Check bundle size with `npm run build`
@@ -390,6 +416,7 @@ const services = [
 ### Debug Mode
 
 Add to `.env.local`:
+
 ```env
 DEBUG=true
 NODE_ENV=development
@@ -402,18 +429,19 @@ NODE_ENV=development
 Add GA4 to `app/layout.tsx`:
 
 ```typescript
-import Script from 'next/script'
+import Script from "next/script";
 
 // Add in head section
 <Script
   src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
   strategy="afterInteractive"
-/>
+/>;
 ```
 
 ### Error Monitoring
 
 Recommended tools:
+
 - **Sentry**: Error tracking
 - **LogRocket**: Session replay
 - **Vercel Analytics**: Performance monitoring
@@ -458,7 +486,7 @@ This project is proprietary software. All rights reserved.
 
 ## 📞 Support
 
-- **Email**: support@hypex.de
+- **Email**: support@hypex.cloud
 - **Telegram**: [@HypexSupport](https://t.me/HypexSupport)
 - **WhatsApp**: [+49 xxx xxx xxxx](https://wa.me/49xxxxxxxxx)
 

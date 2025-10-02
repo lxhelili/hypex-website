@@ -1,85 +1,92 @@
-'use client'
+"use client";
 
-import { MessageCircle, Mail, Instagram, MapPin, CreditCard, Shield, Clock } from 'lucide-react'
+import {
+  MessageCircle,
+  Mail,
+  Instagram,
+  MapPin,
+  CreditCard,
+  Shield,
+  Clock,
+} from "lucide-react";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { name: 'Social Media', href: '#social-media' },
-    { name: 'Premium Abos', href: '#abo-services' },
-    { name: 'Google Services', href: '#google-services' },
-    { name: 'Preise', href: '#social-media' },
-    { name: 'FAQ', href: '#faq' },
-    { name: 'Kontakt', href: '#contact' }
-  ]
+    { name: "Social Media", href: "#social-media" },
+    { name: "Premium Abos", href: "#abo-services" },
+    { name: "Google Services", href: "#google-services" },
+    { name: "Preise", href: "#social-media" },
+    { name: "FAQ", href: "#faq" },
+    { name: "Kontakt", href: "#contact" },
+  ];
 
   const legalLinks = [
-    { name: 'Impressum', href: '/impressum' },
-    { name: 'AGB', href: '/agb' },
-    { name: 'Datenschutz', href: '/datenschutz' },
-    { name: 'Widerruf', href: '/widerruf' }
-  ]
+    { name: "Impressum", href: "/impressum" },
+    { name: "AGB", href: "/agb" },
+    { name: "Datenschutz", href: "/datenschutz" },
+    { name: "Widerruf", href: "/widerruf" },
+  ];
 
   const socialLinks = [
     {
-      name: 'Telegram Channel',
+      name: "Telegram Channel",
       icon: MessageCircle,
-      href: 'https://t.me/HypexChannel',
-      color: 'hover:text-blue-400'
+      href: "https://t.me/HypexChannel",
+      color: "hover:text-blue-400",
     },
     {
-      name: 'Instagram Ask',
+      name: "Instagram Ask",
       icon: Instagram,
-      href: 'https://instagram.com/hypex.ask',
-      color: 'hover:text-pink-400'
+      href: "https://instagram.com/hypex.ask",
+      color: "hover:text-pink-400",
     },
     {
-      name: 'Google Maps',
+      name: "Google Maps",
       icon: MapPin,
-      href: 'https://g.page/hypex-reviews',
-      color: 'hover:text-green-400'
+      href: "https://g.page/hypex-reviews",
+      color: "hover:text-green-400",
     },
     {
-      name: 'Support E-Mail',
+      name: "Support E-Mail",
       icon: Mail,
-      href: 'mailto:support@hypex.de',
-      color: 'hover:text-purple-400'
-    }
-  ]
+      href: "mailto:support@hypex.cloud",
+      color: "hover:text-purple-400",
+    },
+  ];
 
   const paymentMethods = [
-    { name: 'Visa', icon: '💳' },
-    { name: 'Mastercard', icon: '💳' },
-    { name: 'PayPal', icon: '🅿️' },
-    { name: 'SEPA', icon: '🏦' },
-    { name: 'Bitcoin', icon: '₿' }
-  ]
+    { name: "Visa", icon: "💳" },
+    { name: "Mastercard", icon: "💳" },
+    { name: "PayPal", icon: "🅿️" },
+    { name: "SEPA", icon: "🏦" },
+    { name: "Bitcoin", icon: "₿" },
+  ];
 
   const trustBadges = [
     {
       icon: Shield,
-      text: 'SSL Verschlüsselt',
-      subtext: '256-bit Sicherheit'
+      text: "SSL Verschlüsselt",
+      subtext: "256-bit Sicherheit",
     },
     {
       icon: Clock,
-      text: '24/7 Support',
-      subtext: 'Immer erreichbar'
+      text: "24/7 Support",
+      subtext: "Immer erreichbar",
     },
     {
       icon: CreditCard,
-      text: 'Sichere Zahlung',
-      subtext: 'Alle Methoden'
-    }
-  ]
+      text: "Sichere Zahlung",
+      subtext: "Alle Methoden",
+    },
+  ];
 
   return (
     <footer className="bg-gray-900 text-white">
       {/* Main Footer Content */}
       <div className="container-custom py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="mb-6">
@@ -87,9 +94,9 @@ const Footer = () => {
                 <span className="gradient-text">Hypex</span>
               </h3>
               <p className="text-gray-300 leading-relaxed mb-6">
-                Dein vertrauensvoller Partner für digitales Wachstum. 
-                Social Media Services, Premium Abos und Google Optimierung - 
-                alles aus einer Hand.
+                Dein vertrauensvoller Partner für digitales Wachstum. Social
+                Media Services, Premium Abos und Google Optimierung - alles aus
+                einer Hand.
               </p>
             </div>
 
@@ -130,22 +137,35 @@ const Footer = () => {
             <h4 className="font-bold text-lg mb-6">Kontakt & Support</h4>
             <div className="space-y-4">
               <div>
-                <div className="font-medium text-primary-400 mb-2">24/7 Support verfügbar</div>
+                <div className="font-medium text-primary-400 mb-2">
+                  24/7 Support verfügbar
+                </div>
                 <div className="space-y-2 text-sm text-gray-300">
-                  <a href="https://t.me/HypexSupport" className="block hover:text-white transition-colors duration-200">
+                  <a
+                    href="https://t.me/HypexSupport"
+                    className="block hover:text-white transition-colors duration-200"
+                  >
                     📱 Telegram: @HypexSupport
                   </a>
-                  <a href="https://wa.me/49xxxxxxxxx" className="block hover:text-white transition-colors duration-200">
+                  <a
+                    href="https://wa.me/49xxxxxxxxx"
+                    className="block hover:text-white transition-colors duration-200"
+                  >
                     💬 WhatsApp: +49 xxx xxx xxxx
                   </a>
-                  <a href="mailto:support@hypex.de" className="block hover:text-white transition-colors duration-200">
-                    ✉️ E-Mail: support@hypex.de
+                  <a
+                    href="mailto:support@hypex.cloud"
+                    className="block hover:text-white transition-colors duration-200"
+                  >
+                    ✉️ E-Mail: support@hypex.cloud
                   </a>
                 </div>
               </div>
 
               <div className="pt-4 border-t border-gray-700">
-                <div className="font-medium text-primary-400 mb-2">Antwortzeiten</div>
+                <div className="font-medium text-primary-400 mb-2">
+                  Antwortzeiten
+                </div>
                 <div className="text-sm text-gray-300 space-y-1">
                   <div>Telegram/WhatsApp: &lt; 5 Min</div>
                   <div>E-Mail: &lt; 2 Stunden</div>
@@ -167,7 +187,9 @@ const Footer = () => {
                   className={`flex items-center space-x-2 p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors duration-200 ${social.color}`}
                 >
                   <social.icon className="w-4 h-4" />
-                  <span className="text-xs font-medium">{social.name.split(' ')[0]}</span>
+                  <span className="text-xs font-medium">
+                    {social.name.split(" ")[0]}
+                  </span>
                 </a>
               ))}
             </div>
@@ -197,10 +219,12 @@ const Footer = () => {
               Wichtiger Disclaimer
             </h5>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Hypex steht in keiner Verbindung zu Instagram, TikTok, Spotify, Google, Netflix, Disney+, 
-              Amazon Prime Video, Crunchyroll, YouTube, Telegram, Discord, Twitch oder anderen erwähnten Plattformen. 
-              Alle Markennamen, Logos und Warenzeichen gehören den jeweiligen Rechteinhabern. 
-              Unsere Services sind unabhängige Dienstleistungen und werden nicht von den genannten Unternehmen 
+              Hypex steht in keiner Verbindung zu Instagram, TikTok, Spotify,
+              Google, Netflix, Disney+, Amazon Prime Video, Crunchyroll,
+              YouTube, Telegram, Discord, Twitch oder anderen erwähnten
+              Plattformen. Alle Markennamen, Logos und Warenzeichen gehören den
+              jeweiligen Rechteinhabern. Unsere Services sind unabhängige
+              Dienstleistungen und werden nicht von den genannten Unternehmen
               unterstützt, gesponsert oder anderweitig genehmigt.
             </p>
           </div>
@@ -234,7 +258,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

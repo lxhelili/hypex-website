@@ -1,203 +1,187 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { CheckCircle, MessageCircle, Mail, Clock, Download, ArrowRight } from 'lucide-react'
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { CheckCircle, Package, Mail, Home } from "lucide-react";
+import Link from "next/link";
 
-export default function SuccessPage() {
-  const searchParams = useSearchParams()
-  const sessionId = searchParams.get('session_id')
-  const [sessionData, setSessionData] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+function SuccessContent() {
+  const searchParams = useSearchParams();
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (sessionId) {
-      // You would typically fetch session data from your API here
-      // For now, we'll use mock data
-      setTimeout(() => {
-        setSessionData({
-          id: sessionId,
-          customerEmail: 'customer@example.com',
-          amount: 2999,
-          currency: 'eur',
-          status: 'complete'
-        })
-        setLoading(false)
-      }, 1000)
-    } else {
-      setLoading(false)
-    }
-  }, [sessionId])
+    const session = searchParams.get("session_id");
+    setSessionId(session);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, [searchParams]);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="spinner mx-auto mb-4"></div>
-          <p className="text-gray-600">Zahlungsbestätigung wird verarbeitet...</p>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-[#4d006a] to-[#8924e9] flex items-center justify-center">
+        <div className="text-white text-xl">Bestellung wird verarbeitet...</div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
-      <div className="container-custom py-16">
-        <div className="max-w-2xl mx-auto">
-          {/* Success Header */}
-          <div className="text-center mb-12">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-[#4d006a] to-[#8924e9] flex items-center justify-center p-4">
+      <div className="max-w-2xl w-full">
+        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 text-center">
+          <div className="mb-6">
+            <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-12 h-12 text-green-600" />
             </div>
-            
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Zahlung erfolgreich!
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              Zahlung erfolgreich! 🎉
             </h1>
-            
-            <p className="text-xl text-gray-600 leading-relaxed">
-              Vielen Dank für deine Bestellung bei Hypex. 
-              Wir haben deine Zahlung erfolgreich erhalten und werden deine Bestellung sofort bearbeiten.
+            <p className="text-lg text-gray-600">
+              Vielen Dank für deine Bestellung!
             </p>
           </div>
 
-          {/* Order Details */}
-          {sessionData && (
-            <div className="bg-white rounded-2xl p-8 shadow-lg mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Bestelldetails</h2>
-              
-              <div className="space-y-4">
-                <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                  <span className="text-gray-600">Bestellnummer:</span>
-                  <span className="font-semibold text-gray-900">{sessionData.id.substring(0, 12)}...</span>
-                </div>
-                
-                <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                  <span className="text-gray-600">E-Mail:</span>
-                  <span className="font-semibold text-gray-900">{sessionData.customerEmail}</span>
-                </div>
-                
-                <div className="flex justify-between items-center py-3 border-b border-gray-100">
-                  <span className="text-gray-600">Betrag:</span>
-                  <span className="font-semibold text-gray-900">
-                    {(sessionData.amount / 100).toFixed(2)}€
-                  </span>
-                </div>
-                
-                <div className="flex justify-between items-center py-3">
-                  <span className="text-gray-600">Status:</span>
-                  <span className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
-                    <CheckCircle className="w-4 h-4 mr-1" />
-                    Bezahlt
-                  </span>
-                </div>
-              </div>
+          {sessionId && (
+            <div className="bg-gray-50 rounded-xl p-6 mb-8">
+              <p className="text-sm text-gray-600 mb-2">Bestellnummer</p>
+              <p className="font-mono text-lg font-bold text-gray-900 break-all">
+                {sessionId.substring(8, 20).toUpperCase()}
+              </p>
             </div>
           )}
 
-          {/* Next Steps */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Was passiert als nächstes?</h2>
-            
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-blue-600 font-semibold text-sm">1</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Bestellbestätigung</h3>
-                  <p className="text-gray-600">
-                    Du erhältst in wenigen Minuten eine Bestellbestätigung per E-Mail mit allen Details.
-                  </p>
-                </div>
-              </div>
+          <div className="space-y-6 mb-8 text-left">
+            <h2 className="text-2xl font-bold text-gray-900 text-center mb-6">
+              Was passiert jetzt?
+            </h2>
 
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-purple-600 font-semibold text-sm">2</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Bearbeitung</h3>
-                  <p className="text-gray-600">
-                    Unser Team beginnt sofort mit der Bearbeitung deiner Bestellung. 
-                    Die meisten Services werden innerhalb von 5-30 Minuten geliefert.
-                  </p>
-                </div>
+            <div className="flex items-start space-x-4">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Mail className="w-6 h-6 text-purple-600" />
               </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  1. E-Mail Bestätigung
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Du erhältst in wenigen Minuten eine Bestätigungs-E-Mail mit
+                  allen Details zu deiner Bestellung.
+                </p>
+              </div>
+            </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <span className="text-green-600 font-semibold text-sm">3</span>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Lieferung</h3>
-                  <p className="text-gray-600">
-                    Je nach Service erhältst du die Zugangsdaten per E-Mail oder siehst die Ergebnisse 
-                    direkt auf deinen Social Media Profilen.
-                  </p>
-                </div>
+            <div className="flex items-start space-x-4">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Package className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  2. Bestellung wird bearbeitet
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Wir beginnen sofort mit der Bearbeitung. Bei digitalen
+                  Produkten erfolgt die Lieferung innerhalb von 24 Stunden.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  3. Service Aktivierung
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Nach Bearbeitung erhältst du alle notwendigen Informationen
+                  zur Nutzung deines Services.
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Support Information */}
-          <div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl p-8 text-white">
-            <h2 className="text-2xl font-bold mb-4">Fragen oder Probleme?</h2>
-            <p className="mb-6 opacity-90">
-              Unser Support-Team ist 24/7 für dich da und hilft gerne bei allen Fragen rund um deine Bestellung.
+          <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-8 text-left">
+            <h3 className="font-semibold text-blue-900 mb-2">
+              📧 Wichtig: E-Mail überprüfen
+            </h3>
+            <p className="text-sm text-blue-800">
+              Bitte überprüfe auch deinen Spam-Ordner, falls die Bestätigung
+              nicht in deinem Posteingang erscheint.
             </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          </div>
+
+          <div className="space-y-4">
+            <Link
+              href="/"
+              className="w-full bg-[#ed07f6] text-white py-4 rounded-xl font-semibold hover:bg-[#d406db] transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
+            >
+              <Home className="w-5 h-5" />
+              <span>Zurück zur Startseite</span>
+            </Link>
+
+            <Link
+              href="/#social-media"
+              className="w-full bg-gray-100 text-gray-700 py-4 rounded-xl font-semibold hover:bg-gray-200 transition-all duration-300 flex items-center justify-center space-x-2"
+            >
+              <Package className="w-5 h-5" />
+              <span>Weitere Produkte ansehen</span>
+            </Link>
+          </div>
+
+          <div className="mt-8 pt-8 border-t border-gray-200">
+            <p className="text-sm text-gray-600 mb-4">
+              Fragen zu deiner Bestellung?
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a
                 href="https://t.me/HypexSupport"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-3 bg-white bg-opacity-20 rounded-lg p-4 hover:bg-opacity-30 transition-all duration-200"
+                className="inline-flex items-center justify-center px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
               >
-                <MessageCircle className="w-6 h-6" />
-                <div>
-                  <div className="font-semibold">Telegram</div>
-                  <div className="text-sm opacity-90">Sofortige Antwort</div>
-                </div>
+                <svg
+                  className="w-5 h-5 mr-2"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                </svg>
+                Telegram Support
               </a>
-
               <a
-                href="https://wa.me/49xxxxxxxxx"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-3 bg-white bg-opacity-20 rounded-lg p-4 hover:bg-opacity-30 transition-all duration-200"
+                href="mailto:support@hypex.cloud"
+                className="inline-flex items-center justify-center px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
               >
-                <MessageCircle className="w-6 h-6" />
-                <div>
-                  <div className="font-semibold">WhatsApp</div>
-                  <div className="text-sm opacity-90">Direkter Chat</div>
-                </div>
-              </a>
-
-              <a
-                href="mailto:support@hypex.de"
-                className="flex items-center space-x-3 bg-white bg-opacity-20 rounded-lg p-4 hover:bg-opacity-30 transition-all duration-200"
-              >
-                <Mail className="w-6 h-6" />
-                <div>
-                  <div className="font-semibold">E-Mail</div>
-                  <div className="text-sm opacity-90">support@hypex.de</div>
-                </div>
+                <Mail className="w-5 h-5 mr-2" />
+                E-Mail Support
               </a>
             </div>
           </div>
+        </div>
 
-          {/* Back to Homepage */}
-          <div className="text-center mt-8">
-            <a
-              href="/"
-              className="inline-flex items-center space-x-2 bg-white text-primary-600 px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-gray-50 hover:scale-105 shadow-lg"
-            >
-              <span>Zurück zur Startseite</span>
-              <ArrowRight className="w-5 h-5" />
-            </a>
-          </div>
+        <div className="mt-6 text-center text-white/80 text-sm">
+          <p>Deine Zahlung wurde sicher über Stripe verarbeitet.</p>
+          <p className="mt-2">
+            Eine Rechnung findest du in deiner Bestätigungs-E-Mail.
+          </p>
         </div>
       </div>
     </div>
-  )
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-to-br from-[#4d006a] to-[#8924e9] flex items-center justify-center">
+          <div className="text-white text-xl">Laden...</div>
+        </div>
+      }
+    >
+      <SuccessContent />
+    </Suspense>
+  );
 }

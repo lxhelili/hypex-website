@@ -28,13 +28,25 @@
       "platforms": [
         {
           "name": "Instagram",
-          "services": ["Follower", "Likes", "Story Views", "Reels Views", "Kommentare"],
+          "services": [
+            "Follower",
+            "Likes",
+            "Story Views",
+            "Reels Views",
+            "Kommentare"
+          ],
           "priceRange": "2.99€ - 9.99€",
           "icon": "📸"
         },
         {
           "name": "TikTok",
-          "services": ["Follower", "Likes", "Video Views", "Live Likes", "Shares"],
+          "services": [
+            "Follower",
+            "Likes",
+            "Video Views",
+            "Live Likes",
+            "Shares"
+          ],
           "priceRange": "3.99€ - 12.99€",
           "icon": "🎵"
         },
@@ -69,7 +81,7 @@
           "savings": "89.89€"
         },
         {
-          "name": "YouTube Premium", 
+          "name": "YouTube Premium",
           "price": "39.99€",
           "originalPrice": "11.99€/Monat",
           "savings": "103.89€"
@@ -98,7 +110,11 @@
       "maps": {
         "service": "Google Maps Bewertungen",
         "price": "ab 4.99€ pro Bewertung",
-        "features": ["Lokale Sichtbarkeit", "Vertrauenswürdigkeit", "Conversion-Rate"]
+        "features": [
+          "Lokale Sichtbarkeit",
+          "Vertrauenswürdigkeit",
+          "Conversion-Rate"
+        ]
       },
       "knowledgePanel": {
         "business": {
@@ -142,16 +158,24 @@
         "features": ["Service cards", "Pricing", "Purchase buttons"]
       },
       {
-        "name": "AboServices", 
+        "name": "AboServices",
         "file": "app/components/AboServices.tsx",
         "purpose": "Premium subscription services",
-        "features": ["12-month subscriptions", "Upgrade/New options", "Price comparison"]
+        "features": [
+          "12-month subscriptions",
+          "Upgrade/New options",
+          "Price comparison"
+        ]
       },
       {
         "name": "GoogleServices",
         "file": "app/components/GoogleServices.tsx",
         "purpose": "Google Maps & Knowledge Panel services",
-        "features": ["Tab interface", "Before/after examples", "Success stories"]
+        "features": [
+          "Tab interface",
+          "Before/after examples",
+          "Success stories"
+        ]
       },
       {
         "name": "WhyHypex",
@@ -169,7 +193,11 @@
         "name": "FAQ",
         "file": "app/components/FAQ.tsx",
         "purpose": "Frequently asked questions",
-        "features": ["Categorized questions", "Expandable answers", "Search functionality"]
+        "features": [
+          "Categorized questions",
+          "Expandable answers",
+          "Search functionality"
+        ]
       },
       {
         "name": "Contact",
@@ -187,7 +215,7 @@
     "currencies": ["EUR"],
     "features": [
       "Secure checkout",
-      "Webhook processing", 
+      "Webhook processing",
       "Success/Cancel handling",
       "Real-time order fulfillment"
     ],
@@ -209,7 +237,7 @@
     "colorScheme": {
       "primary": {
         "500": "#667eea",
-        "600": "#5a67d8", 
+        "600": "#5a67d8",
         "700": "#4c51bf"
       },
       "secondary": {
@@ -225,7 +253,7 @@
   "environmentVariables": {
     "required": [
       "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
-      "STRIPE_SECRET_KEY", 
+      "STRIPE_SECRET_KEY",
       "STRIPE_WEBHOOK_SECRET",
       "NEXT_PUBLIC_DOMAIN"
     ],
@@ -243,7 +271,7 @@
   "development": {
     "scripts": {
       "dev": "next dev",
-      "build": "next build", 
+      "build": "next build",
       "start": "next start",
       "lint": "next lint"
     },
@@ -260,7 +288,7 @@
   },
   "deployment": {
     "platform": "Vercel",
-    "domain": "hypex.de",
+    "domain": "hypex.cloud",
     "ssl": true,
     "environment": "production",
     "buildCommand": "npm run build",
@@ -298,7 +326,7 @@
       "file": "app/components/Contact.tsx"
     },
     {
-      "priority": "Medium", 
+      "priority": "Medium",
       "component": "Node.js compatibility",
       "issue": "Some packages prefer Node 18+",
       "solution": "Downgraded to compatible versions",
@@ -315,7 +343,7 @@
     ],
     "mediumTerm": [
       "Add admin dashboard",
-      "Implement user authentication", 
+      "Implement user authentication",
       "Add order management system",
       "Create customer portal",
       "Add email automation"
@@ -359,13 +387,13 @@
         "date": "2024"
       },
       {
-        "name": "Core Components", 
+        "name": "Core Components",
         "status": "In Progress",
         "completion": "90%"
       },
       {
         "name": "Payment Integration",
-        "status": "Completed", 
+        "status": "Completed",
         "date": "2024"
       },
       {
