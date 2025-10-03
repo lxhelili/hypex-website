@@ -9,17 +9,19 @@ import {
   Shield,
   Clock,
 } from "lucide-react";
+import Link from 'next/link';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { name: "Social Media", href: "#social-media" },
-    { name: "Premium Abos", href: "#abo-services" },
-    { name: "Google Services", href: "#google-services" },
-    { name: "Preise", href: "#social-media" },
-    { name: "FAQ", href: "#faq" },
-    { name: "Kontakt", href: "#contact" },
+    { name: "Startseite", href: "/" },
+    { name: "Alle Produkte", href: "/products" },
+    { name: "Über uns", href: "/about", external: true },
+    { name: "Partner werden", href: "/partner" },
+    { name: "Web Design", href: "/webdesign" },
+    { name: "FAQ", href: "/#faq" },
+    { name: "Kontakt", href: "/#contact" },
   ];
 
   const legalLinks = [
@@ -120,13 +122,25 @@ const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-gray-300 hover:text-white transition-colors duration-200 flex items-center space-x-2 group"
-                  >
-                    <span className="w-1 h-1 bg-primary-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
-                    <span>{link.name}</span>
-                  </a>
+                  {link.external ? (
+                    <Link
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-300 hover:text-white transition-colors duration-200 flex items-center space-x-2 group"
+                    >
+                      <span className="w-1 h-1 bg-primary-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                      <span>{link.name}</span>
+                    </Link>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-gray-300 hover:text-white transition-colors duration-200 flex items-center space-x-2 group"
+                    >
+                      <span className="w-1 h-1 bg-primary-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></span>
+                      <span>{link.name}</span>
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
